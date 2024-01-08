@@ -25,6 +25,7 @@ class Database {
             rows.forEach((row) => {
               console.log("Row:", row);
             });
+            return rows;
           }
 
         });
@@ -33,12 +34,11 @@ class Database {
     Database.Close(db);
   }
   static Update(value, id) {
-    console.log(value, id);
     let db = new sqlite3.Database(Database.path, (err) => {
       if (err) {
         console.error(err.message);
       } else {
-        console.log("Connected to the database. With Update");
+        console.log("Connected to the database for an update");
       }
 
       const sql = `UPDATE test SET Name = ? WHERE id = ?`;
@@ -47,7 +47,6 @@ class Database {
         if (err) {
           return console.log(err.message);
         }
-        console.log(`Rows updated: ${this.changes}`);
         Database.Close(db);
       });
     });
