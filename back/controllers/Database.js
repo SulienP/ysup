@@ -11,46 +11,102 @@ class Database {
       console.log("Closed the database connection.");
     });
   }
-  static Open() {
-    let db = new sqlite3.Database(Database.path, (err) => {
-      if (err) {
-        console.error(err.message);
-      } else {
-        console.log("Connected to the database.");
-
-        db.all(`SELECT * FROM test`, (err, rows) => {
-          if (err) {
-            console.error(err.message);
-          } else {
-            rows.forEach((row) => {
-              console.log("Row:", row);
-            });
-          }
-
-        });
-      }
-    });
-    Database.Close(db);
-  }
-  static Update(value, id) {
-    console.log(value, id);
-    let db = new sqlite3.Database(Database.path, (err) => {
-      if (err) {
-        console.error(err.message);
-      } else {
-        console.log("Connected to the database. With Update");
-      }
-
-      const sql = `UPDATE test SET Name = ? WHERE id = ?`;
-
-      db.run(sql, [value, id], function (err) {
+  static GetAllProfile() {
+    return new Promise((resolve, reject) => {
+      
+      let db = new sqlite3.Database(Database.path, (err) => {
         if (err) {
-          return console.log(err.message);
+          resolve(err.message);
+        } else {
+          
+          db.all(`SELECT * FROM test`, (err, rows) => {
+            if (err) {
+              console.error(err.message);
+            } else {
+              resolve(rows);
+            }
+          });
         }
-        console.log(`Rows updated: ${this.changes}`);
-        Database.Close(db);
+      });
+      Database.Close(db);
+      
+    });
+  }
+  
+  
+  
+  
+  static GetProfil(id) {
+    return new Promise((resolve, reject) => {
+      let db = new sqlite3.Database(Database.path, (err) => {
+        if (err) {
+          reject(err.message);
+        } else {
+          let sql = `SELECT * FROM test WHERE id  = ?`;
+          db.get(sql, [id], (err, row) => {
+            if (err) {
+              reject(err.message);
+            } else {
+              resolve(row);
+            }
+            Database.Close(db);
+          });
+        }
       });
     });
   }
-}
-
+  static Update(value, id) {
+    return new Promise((resolve, reject) => {
+      
+      let db = new sqlite3.Database(Database.path, (err) => {
+        if (err) {
+          console.error(err.message);
+        } 
+        const sql = `UPDATE test SET Name = ? WHERE id = ?`;
+        db.run(sql, [value, id], function (err) {
+          if (err) {
+            return console.log(err.message);
+          } else {
+            resolve("value update successfuly")
+          }
+        });
+      });
+      Database.Close(db);
+      
+    });
+  }
+  static CreateTicket(sender , recever, tag, content, file, status,date) {
+    return new Promise((resolve, zurückweisen) => {
+      let db = new sqlite3.Database(Database.path, (err) => {
+        if (err) {
+          console.error(err.message);
+        } else {
+          const sql =
+            " INSER INTO ticket(sender , recever, tag, content , file ,status , date) VALUES (?,?,?,?,?,?,?)";
+          db.run(
+            sql,
+            [sender, recever, tag, content, file, status, date],
+            (err, result) => {
+              if (err) {
+                console.error(err);
+              } else {
+                resolve("Ticket create succefull");
+              }
+            }
+          );
+        }
+      });
+    });};
+    }
+    
+    // const test = async (req, res) => {
+    //   try {
+    //     let testf = await Database.GetAllProfile();
+    //     console.log(testf)
+    //   } catch (error) {
+    //     console.error("Une erreur s'est produite :", error);
+    
+    //   }
+    // };
+    
+    // test();
