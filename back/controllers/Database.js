@@ -111,23 +111,27 @@ class Database {
   /*
   !TODO: Vérifié les requêtes sql
   */
-  static RecuperationTicket(tag) {
+static RecuperationTicket(tag) {
     return new Promise((resolve, reject) => {
-      if (err) {
-        console.error(err);
-      } else {
-        const sql = "SELECT * FROM ticket  INNER JOIN relation_user_tag ON ticket.id = relation_user_tag.id_ticket INNER JOIN relations_user_tag ON tag.id = relations_user_tag.idTag"
-        db.run(sql, [tag], (err, result) => {
-          if (err) {
-            console.error(err);
-          } else {
-            resolve(result);
-          }
-        })
-      }
+        const sql = `
+            SELECT tickets.title, tickets.content, tickets.status, tickets.dates
+            FROM tickets
+            INNER JOIN relation_users_tags ON tickets.idTicket = relation_users_tags.idRelationUserTag
+            INNER JOIN relation_tags_groups ON relation_users_tags.idTag = relation_tags_groups.idTag
+            WHERE relation_tags_groups.idTag = ?;
+        `;
+
+        db.all(sql, [tag], (err, result) => {
+            if (err) {
+                console.error(err);
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
     });
-  }
 }
+
     
     const test = async (req, res) => {
       try {
