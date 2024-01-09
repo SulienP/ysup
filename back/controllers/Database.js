@@ -3,8 +3,7 @@ const path = require("path"); // Add this line to import the 'path' module
 
 // Database class with connection method
 class Database {
-  static path = path.join(__dirname, "database.db");
-
+  static path = path.join(__dirname, "hackaton.db");
   // Close the database connection
   static Close(db) {
     db.close((err) => {
@@ -17,6 +16,7 @@ class Database {
   
   // Get all profile from database
   static GetAllProfile() {
+
     return new Promise((resolve, reject) => {
       let db = new sqlite3.Database(Database.path, (err) => {
         if (err) {
@@ -129,14 +129,14 @@ class Database {
   }
 }
     
-    // const test = async (req, res) => {
-    //   try {
-    //     let testf = await Database.GetAllProfile();
-    //     console.log(testf)
-    //   } catch (error) {
-    //     console.error("Une erreur s'est produite :", error);
+    const test = async (req, res) => {
+      try {
+        let testf = await Database.GetAllProfile();
+        console.log(testf)
+      } catch (error) {
+        console.error("Une erreur s'est produite :", error);
     
-    //   }
-    // };
+      }
+    };
     
-    // test()
+    test()
