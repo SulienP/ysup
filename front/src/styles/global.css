@@ -1,0 +1,63 @@
+:root {
+    --green : #23B2A4;
+    --red : #EC4363;
+    --black : #333333;
+    --white : #FFFFFF;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h1,h2,h3,h4,h5,p {
+    margin: 0;
+    padding: 0;
+}
+
+.columnContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.rowContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.alignCenter {
+    align-items: center;
+    justify-content: center;
+}
+
+@font-face {
+    font-family: 'montserrat-medium';
+    src: url('../assets/Fonts/montserrat/montserrat/ttf/Montserrat-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'montserrat-bold';
+    src: url('../assets/Fonts/montserrat/montserrat/ttf/Montserrat-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'montserrat-thin';
+    src: url('../assets/Fonts/montserrat/montserrat/ttf/Montserrat-Thin.ttf');
+}
+
+@font-face {
+    font-family: 'source-sans-pro-thin';
+    src: url('../assets/Fonts/source_sans_pro/Source_Sans_Pro/ttf/SourceSansPro-Light.ttf');
+}
+
+@font-face {
+    font-family: 'source-sans-pro-medium';
+    src: url('../assets/Fonts/source_sans_pro/Source_Sans_Pro/ttf/SourceSansPro-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'source-sans-pro-bold';
+    src: url('../assets/Fonts/source_sans_pro/Source_Sans_Pro/ttf/SourceSansPro-Bold.ttf');
+}
+
+
