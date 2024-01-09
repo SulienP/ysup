@@ -11,7 +11,7 @@ class Database {
       console.log("Closed the database connection.");
     });
   }
-  static Open() {
+  static GetAll() {
     let db = new sqlite3.Database(Database.path, (err) => {
       if (err) {
         console.error(err.message);
@@ -22,17 +22,37 @@ class Database {
           if (err) {
             console.error(err.message);
           } else {
-            rows.forEach((row) => {
-              console.log("Row:", row);
-            });
             return rows;
           }
-
         });
       }
     });
     Database.Close(db);
   }
+
+
+
+
+static GetProfil(id) {
+  console.log("début");
+  return new Promise((resolve, reject) => {
+    let db = new sqlite3.Database(Database.path, (err) => {
+      if (err) {
+        reject(err.message);
+      } else {
+        let sql = `SELECT * FROM test WHERE id  = ?`;
+        db.get(sql, [id], (err, row) => {
+          if (err) {
+            reject(err.message);
+          } else {
+            resolve(row);
+          }
+          Database.Close(db);
+        });
+      }
+    });
+  });
+}
   static Update(value, id) {
     let db = new sqlite3.Database(Database.path, (err) => {
       if (err) {
@@ -52,4 +72,14 @@ class Database {
     });
   }
 }
+const test = async (req, res) => {
+  try {
+    console.log("je passe ici");
+    let testf = await Database.GetProfil(2);
+  } catch (error) {
+    console.error("Une erreur s'est produite :", error);
+ 
+  }
+};
 
+test();
