@@ -95,7 +95,7 @@ class Database {
             " INSERT INTO ticket(title,content,file,status,date) VALUES (?,?,?,?,?,?,?)";
           db.run(
             sql,
-            [title,content,file,status,date],
+            [title, content, file, status, date],
             (err, result) => {
               if (err) {
                 console.error(err);
@@ -111,9 +111,9 @@ class Database {
   /*
   !TODO: Vérifié les requêtes sql
   */
-static RecuperationTicket(tag) {
+  static RecuperationTicket(tag) {
     return new Promise((resolve, reject) => {
-        const sql = `
+      const sql = `
             SELECT tickets.title, tickets.content, tickets.status, tickets.dates
             FROM tickets
             INNER JOIN relation_users_tags ON tickets.idTicket = relation_users_tags.idRelationUserTag
@@ -121,14 +121,26 @@ static RecuperationTicket(tag) {
             WHERE relation_tags_groups.idTag = ?;
         `;
 
-        db.all(sql, [tag], (err, result) => {
-            if (err) {
-                console.error(err);
-                reject(err);
-            } else {
-                resolve(result);
-            }
-        });
+      db.all(sql, [tag], (err, result) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  }
+  static getIdTag(nameTag) {
+    return new Promise((resolve, reject) => {
+      const sql = `SELECT tags.idTag from tags WHERE name = ?`
+      db.all(sql, [nameTag], (err, result) => {
+        if (err) {
+          console.error(err);
+        } else {
+          resolve(result);
+        }
+      });
     });
 }
 
