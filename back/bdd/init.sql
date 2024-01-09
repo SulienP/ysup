@@ -1,13 +1,14 @@
 
+DROP TABLE IF EXISTS relation_groups_users;
+DROP TABLE IF EXISTS relation_reponses_tickets;
+DROP TABLE IF EXISTS relation_tags_groups;
+DROP TABLE IF EXISTS relation_users_tags;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS responses;
 DROP TABLE IF EXISTS tickets;
 DROP TABLE IF EXISTS tags;
-DROP TABLE IF EXISTS relation_groups_users;
-DROP TABLE IF EXISTS relation_reponses_tickets;
-DROP TABLE IF EXISTS relation_tags_groups;
-DROP TABLE IF EXISTS relation_users_tags;
+
 
 CREATE TABLE users
 (
@@ -63,9 +64,10 @@ CREATE TABLE tags
 CREATE TABLE relation_groups_users
 (
 	idRelationGroupUser INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	userID INTEGER NOT NULL,
+	userID VARCHAR(255) NOT NULL,
 	groupID INTEGER NOT NULL,
-	FOREIGN KEY(idRelationGroupUser) REFERENCES users(idUser)
+	FOREIGN KEY(userID) REFERENCES users(idUser),
+	FOREIGN KEY(groupID) REFERENCES groups(idGroup)
 );
 
 
@@ -102,3 +104,19 @@ CREATE TABLE relation_tags_groups
 	FOREIGN KEY(idTag) REFERENCES tags(idTag),
 	FOREIGN KEY(idGroup) REFERENCES groups(idGroup)
 );
+
+INSERT INTO users (idUser, firstname, lastname, password, image, email)
+VALUES (
+    '2f3f51c3318c',
+    'John',
+    'Doe',
+    '2f3f51c3318c',
+    'profile_image_url',
+    'john.doe@example.com'
+);
+
+INSERT INTO groups (name, permission)
+VALUES ('MyGroup', 'r-');
+
+INSERT INTO relation_groups_users (userID , groupID)
+VALUES ('2f3f51c3318c',1);
