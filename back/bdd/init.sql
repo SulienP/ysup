@@ -1,99 +1,104 @@
-CREATE TABLE user
+
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS groups;
+DROP TABLE IF EXISTS responses;
+DROP TABLE IF EXISTS tickets;
+DROP TABLE IF EXISTS tags;
+DROP TABLE IF EXISTS relation_groups_users;
+DROP TABLE IF EXISTS relation_reponses_tickets;
+DROP TABLE IF EXISTS relation_tags_groups;
+DROP TABLE IF EXISTS relation_users_tags;
+
+CREATE TABLE users
 (
-	idUser varchar(500)PRIMARY KEY NOT NULL,
-	firstname varchar(40),
-	lastname varchar(40),
-	passwords varchar(60),
-	image varchar(500),
-	email varchar(50)
-)	
+	idUser VARCHAR(255) PRIMARY KEY NOT NULL,
+	firstname VARCHAR(40) NOT NULL,
+	lastname VARCHAR(40) NOT NULL,
+	password VARCHAR(60) NOT NULL,
+	image VARCHAR(500),
+	email VARCHAR(50) NOT NULL
+);
 
 CREATE TABLE groups
 (
-    idGroups INT AUTO_INCREMENT NOT NULL,
-	name varchar(40),
-	permission varchar(5)
-)
+    idGroup INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	name VARCHAR(40) NOT NULL,
+	permission VARCHAR(5) NOT NULL
+);
 
 
-CREATE TABLE reponse
+CREATE TABLE responses
 (
-  idReponse varchar(500) PRIMARY KEY NOT NULL,
-	idUser varchar(500),
-	content varchar(200),
-	file blob,
-	dates datetime,
-	FOREIGN KEY(idUser) REFERENCES user(idUser)
-)
+	idResponse VARCHAR(500) PRIMARY KEY NOT NULL,
+	idUser VARCHAR(500) NOT NULL,
+	content VARCHAR(200) NOT NULL,
+	file BLOB,
+	mailingDate DATE NOT NULL,
+	FOREIGN KEY(idUser) REFERENCES users(idUser)
+);
 
 
 
-CREATE TABLE ticket
+CREATE TABLE tickets
 (
-	id varchar(500) PRIMARY key NOT NULL,
-	title varchar(20),
-	content varchar(200),
-	file blob,
-	status INT,
-	dates datetime
-)
+	idTicket VARCHAR(500) PRIMARY KEY NOT NULL,
+	title VARCHAR(30) NOT NULL,
+	content VARCHAR(200) NOT NULL,
+	file BLOB,
+	status INTEGER NOT NULL,
+	dates DATE NOT NULL
+);
 
 
 
 CREATE TABLE tags
 (
-	id INT AUTO_INCREMENT NOT NULL,
-	name varchar(60)
-)
+	idTag INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	name VARCHAR(30) NOT NULL
+);
 
 
 
 	
-CREATE TABLE relation_group_user
+CREATE TABLE relation_groups_users
 (
-	idRelation_group_user INT PRIMARY KEY NOT NULL,
-	userID INT,
-	groupID INT,
-	FOREIGN KEY(idRelation_group_user) REFERENCES user(idUser)
-)
+	idRelationGroupUser INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	userID INTEGER NOT NULL,
+	groupID INTEGER NOT NULL,
+	FOREIGN KEY(idRelationGroupUser) REFERENCES users(idUser)
+);
 
 
 
-CREATE TABLE relation_reponse_ticket
+CREATE TABLE relation_reponses_tickets
 (
-	id INT PRIMARY KEY NOT NULL,
-	id_response varchar(500) NOT NULL,
-	id_ticket varchar(500)NOT NULL,
-	FOREIGN KEY(id_ticket) REFERENCES user(idticket)
-	FOREIGN KEY(id_response) REFERENCES user(idReponse)
-
-
-)	
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	idResponse VARCHAR(500) NOT NULL,
+	idTicket VARCHAR(500)NOT NULL,
+	FOREIGN KEY(idTicket) REFERENCES tickets(idTicket)
+	FOREIGN KEY(idResponse) REFERENCES responses(idResponse)
+);	
 
 
 
 
 
-CREATE TABLE relation_user_tag
+CREATE TABLE relation_users_tags
 (
-	idRelation_user_tag INT PRIMARY KEY NOT NULL,
-	id_tag INT NOT NULL,
-	id_ticket varchar(500) NOT NULL,
-	FOREIGN KEY(id_tag) REFERENCES user(idtags),
-	FOREIGN KEY(id_ticket) REFERENCES user(idticket)
-
-
-)
+	idRelationUserTag INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	idTag INTEGER NOT NULL,
+	idTicket VARCHAR(500) NOT NULL,
+	FOREIGN KEY(idTag) REFERENCES tags(idTag),
+	FOREIGN KEY(idTicket) REFERENCES tickets(idTicket)
+);
 
 
 
-CREATE TABLE relation_tag_group
+CREATE TABLE relation_tags_groups
 (
-	idRelation_tag_group INT PRIMARY KEY NOT NULL,
-	id_tag INT NOT NULL,
-	id_group INT NOT NULL,
-	FOREIGN KEY(id_tag) REFERENCES user(idtags),
-	FOREIGN KEY(id_group) REFERENCES user(idGroups)
-
-
-)
+	idRelationTagGroup INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	idTag INTEGER NOT NULL,
+	idGroup INTEGER NOT NULL,
+	FOREIGN KEY(idTag) REFERENCES tags(idTag),
+	FOREIGN KEY(idGroup) REFERENCES groups(idGroup)
+);
