@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS relation_groups_users;
 DROP TABLE IF EXISTS relation_reponses_tickets;
 DROP TABLE IF EXISTS relation_tags_groups;
-DROP TABLE IF EXISTS relation_users_tags;
+DROP TABLE IF EXISTS relation_tickets_tags;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS responses;
@@ -85,9 +85,9 @@ CREATE TABLE relation_reponses_tickets
 
 
 
-CREATE TABLE relation_users_tags
+CREATE TABLE relation_tickets_tags
 (
-	idRelationUserTag INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	idRelationTicketTag INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	idTag INTEGER NOT NULL,
 	idTicket VARCHAR(500) NOT NULL,
 	FOREIGN KEY(idTag) REFERENCES tags(idTag),

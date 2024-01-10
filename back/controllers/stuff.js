@@ -1,5 +1,5 @@
 const Database = require("./Database_bis");
-const DBPATH = "./test.db";
+const DBPATH = "./hackaton.db";
 const crypto = require("crypto");
 
 const hashPassword = (algorithm, base, passwd) => {

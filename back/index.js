@@ -17,13 +17,13 @@ app.use(cors());
 app.use('/api', stuffRoutes);
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*'); 
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-  });
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 app.listen(PORT, () => {
-    console.log('Server started ! http://localhost:3000');
-    console.log(`Server now listening on ${PORT}`);
+  console.log('Server started ! http://localhost:3000/api');
+  console.log(`Server now listening on ${PORT}`);
 })
