@@ -5,8 +5,10 @@ const HeaderPage = () => {
     return (
         <div className="header-wrapper">
             <header className="header">
-                <img className="logo" src="/logo_ynov_campus_rvb_blanc.png" alt="Page de ticket Ynov"/>
-                <div className="">
+                <button className="button-logo">
+                    <img className="logo" src="/logo_ynov_campus_rvb_blanc.png" alt="Page de ticket Ynov"/>
+                </button>
+                <div>
                     <button className="button-ticket">
                         <a>Creation ticket</a>
                     </button>

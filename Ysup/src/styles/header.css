@@ -41,3 +41,8 @@ img {
     color: white;
     font-size: 14px;
 }
+.button-logo {
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
