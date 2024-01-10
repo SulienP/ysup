@@ -38,16 +38,20 @@ CREATE TABLE responses
 );
 
 
-
 CREATE TABLE tickets
 (
 	idTicket VARCHAR(500) PRIMARY KEY NOT NULL,
 	title VARCHAR(30) NOT NULL,
 	content VARCHAR(200) NOT NULL,
+	idTagTicket INTEGER NOT NULL,
 	file BLOB,
 	status INTEGER NOT NULL,
-	dates DATE NOT NULL
+	dates DATE NOT NULL,
+	idUser VARCHAR(500) NOT NULL,
+	FOREIGN KEY(idUser) REFERENCES users(idUser),
+	FOREIGN KEY(idTagTicket) REFERENCES tags(idTag)
 );
+
 
 
 
@@ -56,8 +60,6 @@ CREATE TABLE tags
 	idTag INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	name VARCHAR(30) NOT NULL
 );
-
-
 
 	
 CREATE TABLE relation_groups_users
@@ -78,19 +80,6 @@ CREATE TABLE relation_reponses_tickets
 	FOREIGN KEY(idTicket) REFERENCES tickets(idTicket)
 	FOREIGN KEY(idResponse) REFERENCES responses(idResponse)
 );	
-
-
-
-
-
-CREATE TABLE relation_users_tags
-(
-	idRelationUserTag INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	idTag INTEGER NOT NULL,
-	idTicket VARCHAR(500) NOT NULL,
-	FOREIGN KEY(idTag) REFERENCES tags(idTag),
-	FOREIGN KEY(idTicket) REFERENCES tickets(idTicket)
-);
 
 
 
