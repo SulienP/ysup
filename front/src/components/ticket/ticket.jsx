@@ -1,7 +1,8 @@
-import "../styles/ticket.css";
-import ArrowTicket from "../assets/arrow_forward.svg";
+import "./ticket.css";
+import '../../styles/global.css';
+import ArrowTicket from "../../assets/Images/arrow_forward.svg";
 import React from "react";
-import logo from "../../public/logoProfile.png";
+import logo from "../../assets/Images/logoProfile.png";
 
 const ComponentsTicket = () => {
     return (

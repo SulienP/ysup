@@ -1,5 +1,5 @@
-import "../styles/header.css";
-import "../styles/global.css";
+import "./header.css";
+import '../../styles/global.css';
 
 const HeaderPage = () => {
     return (
