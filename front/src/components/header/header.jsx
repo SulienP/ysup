@@ -3,17 +3,17 @@ import '../../styles/global.css';
 
 const HeaderPage = () => {
     return (
-        <div className="header-wrapper">
+        <div className="header-wrapper rowContainer">
             <header className="header">
                 <button className="button-logo">
-                    <img className="logo" src="/logo_ynov_campus_rvb_blanc.png" alt="Page de ticket Ynov"/>
+                    <img className="logo" src="/logo_ynov_campus_rvb_blanc.png" alt="Page de ticket Ynov" />
                 </button>
-                <div>
+                <div className="rowContainer">
                     <button className="button-ticket">
-                        <a>Creation ticket</a>
+                        Creation ticket
                     </button>
                     <button className="button-avatar" aria-haspopup="true">
-                        <img className="user-avatar" src="/logoProfile.png"/>
+                        <img className="user-avatar" src="./src/assets/Images/logoProfile.png" />
                     </button>
                 </div>
             </header>
