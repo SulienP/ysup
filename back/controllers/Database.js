@@ -145,14 +145,14 @@ class Database {
 }
 
     
-    const test = async (req, res) => {
-      try {
-        let testf = await Database.GetAllProfile();
-        console.log(testf)
-      } catch (error) {
-        console.error("Une erreur s'est produite :", error);
+    // const test = async (req, res) => {
+    //   try {
+    //     let testf = await Database.GetAllProfile();
+    //     console.log(testf)
+    //   } catch (error) {
+    //     console.error("Une erreur s'est produite :", error);
     
-      }
-    };
+    //   }
+    // };
     
-    test()
+    // test()
