@@ -61,10 +61,9 @@ CREATE TABLE tags
 CREATE TABLE relation_groups_users
 (
 	idRelationGroupUser INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	userID VARCHAR(255) NOT NULL,
+	userID INTEGER NOT NULL,
 	groupID INTEGER NOT NULL,
-	FOREIGN KEY(userID) REFERENCES users(idUser),
-	FOREIGN KEY(groupID) REFERENCES groups(idGroup)
+	FOREIGN KEY(idRelationGroupUser) REFERENCES users(idUser)
 );
 
 
