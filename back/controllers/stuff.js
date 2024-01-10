@@ -41,7 +41,7 @@ exports.UpdateValues = async (req, res) => {
 };
 exports.CreateTicket = async (req, res) => {
   const { title, content, file, status, date } = req.body;
-  const Create = await Database.Read(DBPATH, "INSERT INTO ticket(title,content,file,status,date) VALUES (?,?,?,?,?,?,?)", title, content, file, status, date);
+  const Create = await Database.Write(DBPATH, "INSERT INTO ticket(title,content,file,status,date) VALUES (?,?,?,?,?,?,?)", title, content, file, status, date);
   res.json(Create);
 };
 exports.GetAllTicketWithTag = async (req, res) => {
