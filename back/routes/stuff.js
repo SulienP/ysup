@@ -7,6 +7,6 @@ router.get('/hello',stuffCtrl.hello);
 router.post('/isuservalid',stuffCtrl.isUserValid);
 router.post('/isjwtvalid',stuffCtrl.isJwtValid);
 router.get('/getalltags',stuffCtrl.GetAllTags);
-router.get('/createticket',stuffCtrl.CreateTicket);
+router.post('/createticket',stuffCtrl.CreateTicket);
 
 module.exports = router;
