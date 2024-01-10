@@ -82,9 +82,9 @@ exports.GetAllProfile = async (req, res) => {
     const allUsers = await Database.Read(DBPATH, "SELECT * FROM user");
     res.json(allUsers);   
 };
-exports.GetProfilById = async (req, res) => {
-  const id = req.body;
-  const UserById = await Database.Read(DBPATH, "SELECT * FROM user WHERE id  = ?", id);
+exports.GetProfilByMail = async (req, res) => {
+  const mail = req.body;
+  const UserById = await Database.Read(DBPATH, "SELECT * FROM user WHERE mail  = ?", mail.mail);
   res.json(UserById);
 };
 exports.UpdateValues = async (req, res) => {
@@ -97,15 +97,21 @@ exports.GetAllTags = async (req, res) => {
   res.json(allTags);
 };
 exports.CreateTicket = async (req, res) => {
-  const emp  = req.body;
+  const emp = req.body;
+  /*
+  !TODO : récupéré profile
+  */
+  const idIag = this.GetIdTag(tagName)
   const Create = await Database.Write(
     DBPATH,
-    "INSERT INTO ticket(title,content,file,status,date) VALUES (?,?,?,?,?,?,?)",
+    "INSERT INTO ticket(idTicket,title,content,idTagTicket,file,status,date, idTag) VALUES (?,?,?,?,?,?,?,?)",
     emp.title,
     emp.content,
+    emp.idTagTicket,
     emp.file,
     emp.status,
-    emp.date
+    emp.date,
+    idIag.idIag
   );
   res.json(Create);
 };
@@ -121,6 +127,6 @@ exports.GetAllTicketWithTag = async (req, res) => {
 };
 exports.GetIdTag = async (req, res) => {
   const emp = req.body;
-  const IdTag = await Database.Read(DBPATH, " SELECT tags.idTag from tags WHERE name = ?",emp.id);
+  const IdTag = await Database.Read(DBPATH, " SELECT tags.idTag from tags WHERE name = ?",emp.name);
   res.json(IdTag);
 };
