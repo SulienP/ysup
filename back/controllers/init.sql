@@ -9,7 +9,6 @@ DROP TABLE IF EXISTS responses;
 DROP TABLE IF EXISTS tickets;
 DROP TABLE IF EXISTS tags;
 
-
 CREATE TABLE users
 (
 	idUser VARCHAR(255) PRIMARY KEY NOT NULL,
@@ -39,18 +38,19 @@ CREATE TABLE responses
 );
 
 
-
 CREATE TABLE tickets
 (
 	idTicket VARCHAR(500) PRIMARY KEY NOT NULL,
 	title VARCHAR(30) NOT NULL,
 	content VARCHAR(200) NOT NULL,
+	idTagTicket INTEGER NOT NULL,
 	file BLOB,
 	status INTEGER NOT NULL,
-	dates DATE NOT NULL
+	dates DATE NOT NULL,
+	idUser VARCHAR(500) NOT NULL,
+	FOREIGN KEY(idUser) REFERENCES users(idUser),
+	FOREIGN KEY(idTagTicket) REFERENCES tags(idTag)
 );
-
-
 
 CREATE TABLE tags
 (
@@ -58,16 +58,13 @@ CREATE TABLE tags
 	name VARCHAR(30) NOT NULL
 );
 
-
-
 	
 CREATE TABLE relation_groups_users
 (
 	idRelationGroupUser INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	userID VARCHAR(255) NOT NULL,
+	userID INTEGER NOT NULL,
 	groupID INTEGER NOT NULL,
-	FOREIGN KEY(userID) REFERENCES users(idUser),
-	FOREIGN KEY(groupID) REFERENCES groups(idGroup)
+	FOREIGN KEY(idRelationGroupUser) REFERENCES users(idUser)
 );
 
 
@@ -80,19 +77,6 @@ CREATE TABLE relation_reponses_tickets
 	FOREIGN KEY(idTicket) REFERENCES tickets(idTicket)
 	FOREIGN KEY(idResponse) REFERENCES responses(idResponse)
 );	
-
-
-
-
-
-CREATE TABLE relation_tickets_tags
-(
-	idRelationTicketTag INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	idTag INTEGER NOT NULL,
-	idTicket VARCHAR(500) NOT NULL,
-	FOREIGN KEY(idTag) REFERENCES tags(idTag),
-	FOREIGN KEY(idTicket) REFERENCES tickets(idTicket)
-);
 
 
 
@@ -110,13 +94,13 @@ VALUES (
     '2f3f51c3318c',
     'John',
     'Doe',
-    '2f3f51c3318c',
+    'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=',
     'profile_image_url',
     'john.doe@example.com'
 );
 
 INSERT INTO groups (name, permission)
-VALUES ('MyGroup', 'r-');
+VALUES ('MyGroup', 'r-'),('MyGroup2', '-W');
 
 INSERT INTO relation_groups_users (userID , groupID)
-VALUES ('2f3f51c3318c',1);
+VALUES ('2f3f51c3318c',1),('2f3f51c3318c',2);
