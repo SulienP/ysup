@@ -35,23 +35,35 @@ exports.GetProfilById = async (req, res) => {
   res.json(UserById);
 };
 exports.UpdateValues = async (req, res) => {
-  const { tableName, columnName, value, id } = req.body;
-  const Update = await Database.Write(DBPATH, "UPDATE ? SET ? = ? WHERE id = ?", tableName, columnName, value, id);
+  const emp  = req.body;
+  const Update = await Database.Write(DBPATH, "UPDATE ? SET ? = ? WHERE id = ?", emp.tableName, emp.columnName, emp.value, emp.id);
   res.json(Update);
 };
 exports.CreateTicket = async (req, res) => {
-  const { title, content, file, status, date } = req.body;
-  const Create = await Database.Write(DBPATH, "INSERT INTO ticket(title,content,file,status,date) VALUES (?,?,?,?,?,?,?)", title, content, file, status, date);
+  const emp  = req.body;
+  const Create = await Database.Write(
+    DBPATH,
+    "INSERT INTO ticket(title,content,file,status,date) VALUES (?,?,?,?,?,?,?)",
+    emp.title,
+    emp.content,
+    emp.file,
+    emp.status,
+    emp.date
+  );
   res.json(Create);
 };
 exports.GetAllTicketWithTag = async (req, res) => {
-  const { tag } = req.body;
-  const TicketByTag = await Database.Read(DBPATH, "        SELECT tickets.title, tickets.content, tickets.status, tickets.dates FROM tickets INNER JOIN relation_users_tags ON tickets.idTicket = relation_users_tags.idRelationUserTag INNER JOIN relation_tags_groups ON relation_users_tags.idTag = relation_tags_groups.idTagWHERE relation_tags_groups.idTag = ?;", tag);
+  const emp = req.body;
+  const TicketByTag = await Database.Read(
+    DBPATH,
+    "        SELECT tickets.title, tickets.content, tickets.status, tickets.dates FROM tickets INNER JOIN relation_users_tags ON tickets.idTicket = relation_users_tags.idRelationUserTag INNER JOIN relation_tags_groups ON relation_users_tags.idTag = relation_tags_groups.idTagWHERE relation_tags_groups.idTag = ?;",
+    emp.tag
+  );
   res.json(TicketByTag);
 
 };
 exports.GetIdTag = async (req, res) => {
-  const { id } = req.body;
-  const IdTag = await Database.Read(DBPATH, " SELECT tags.idTag from tags WHERE name = ?", id);
+  const emp = req.body;
+  const IdTag = await Database.Read(DBPATH, " SELECT tags.idTag from tags WHERE name = ?",emp.id);
   res.json(IdTag);
 };
