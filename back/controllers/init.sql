@@ -57,7 +57,6 @@ CREATE TABLE tags
 	idTag INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	name VARCHAR(30) NOT NULL
 );
-
 	
 CREATE TABLE relation_groups_users
 (
