@@ -1,6 +1,8 @@
 .header-wrapper {
     height: 104;
     background-color: #23B2A4;
+    z-index: 999;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .logo {
     max-height: 37px;
@@ -31,16 +33,27 @@ img {
     cursor: pointer;
 }
 .button-ticket {
+    text-decoration: none;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
+    border: none;
     background: #333333;
     height: 30px;
     width: 125px;
-}
-.button-ticket a {
+    outline: none;
     color: white;
-    font-size: 14px;
+    font-size: 12px;
+    margin-right: 2rem;
+    font-family: 'montserrat-medium',sans-serif;
 }
+
+.button-ticket:hover {
+    transform: translateY(2px);
+    transform-style: preserve-3d;
+    transition: .5s;
+    cursor: pointer;
+}
+
 .button-logo {
     background: none;
     border: 0;

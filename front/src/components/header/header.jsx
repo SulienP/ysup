@@ -1,23 +1,24 @@
 import "./header.css";
 import '../../styles/global.css';
+import { Link } from "react-router-dom";
 
 const HeaderPage = () => {
     return (
-        <div className="header-wrapper">
-            <header className="header">
+        <header className="header-wrapper rowContainer">
+            <div className="header">
                 <button className="button-logo">
-                    <img className="logo" src="/logo_ynov_campus_rvb_blanc.png" alt="Page de ticket Ynov"/>
+                    <img className="logo" src="/logo_ynov_campus_rvb_blanc.png" alt="Page de ticket Ynov" />
                 </button>
-                <div>
-                    <button className="button-ticket">
-                        <a>Creation ticket</a>
-                    </button>
+                <div className="rowContainer">
+                    <Link className="button-ticket rowContainer alignCenter" to={"/create-ticket"}>
+                        Creation ticket
+                    </Link>
                     <button className="button-avatar" aria-haspopup="true">
-                        <img className="user-avatar" src="/logoProfile.png"/>
+                        <img className="user-avatar" src="./src/assets/Images/logoProfile.png" />
                     </button>
                 </div>
-            </header>
-        </div>
+            </div>
+        </header>
     )
 };
 
