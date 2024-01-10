@@ -1,0 +1,37 @@
+.container_add_ticket {
+    background-color: var(--lightgray);
+    border-radius: 15px;
+    margin: 1rem;
+    overflow: hidden;
+}
+
+.container_add_ticket h1 {
+    font-family: 'montserrat-bold',sans-serif;
+    font-size: 28px;
+    background-color: var(--green);
+    padding: 2rem;
+    text-align: center;
+    color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+.container_add_ticket section {
+    margin: 1rem 2rem;
+}
+
+.container_add_ticket section h3 {
+    font-family: 'source-sans-pro-medium' , sans-serif;
+}
+
+.container_add_ticket .container_tag_file {
+    justify-content: start;
+    align-items: center;
+    gap: 5rem;
+}
+
+.container_add_ticket .select_tag {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border: 1px solid var(--green);
+}
