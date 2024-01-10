@@ -110,13 +110,13 @@ VALUES (
     '2f3f51c3318c',
     'John',
     'Doe',
-    '2f3f51c3318c',
+    'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=',
     'profile_image_url',
     'john.doe@example.com'
 );
 
 INSERT INTO groups (name, permission)
-VALUES ('MyGroup', 'r-');
+VALUES ('MyGroup', 'r-'),('MyGroup2', '-W');
 
 INSERT INTO relation_groups_users (userID , groupID)
-VALUES ('2f3f51c3318c',1);
+VALUES ('2f3f51c3318c',1),('2f3f51c3318c',2);

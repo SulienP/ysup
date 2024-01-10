@@ -27,10 +27,13 @@ export const LoginComp = () => {
             setErrorMsg("L'utilisateur n'est pas valide");
           } else {
             setErrorMsg(null);
+            const expires = new Date();
+            expires.setTime(expires.getTime() + 60 * 60 * 1000); // 1h
+            document.cookie = `jwt=${response.data.jwt};expires=${expires.toUTCString()};path=/`;
             navigate("/");
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setErrorMsg("Une erreur est apparue durant la connexion.");
         });
     }
