@@ -92,6 +92,10 @@ exports.UpdateValues = async (req, res) => {
   const Update = await Database.Write(DBPATH, "UPDATE ? SET ? = ? WHERE id = ?", emp.tableName, emp.columnName, emp.value, emp.id);
   res.json(Update);
 };
+exports.GetAllTags = async (req, res) => {
+  const allTags = await Database.Read(DBPATH, "SELECT * FROM tags");
+  res.json(allTags);
+}
 exports.CreateTicket = async (req, res) => {
   const emp  = req.body;
   const Create = await Database.Write(
