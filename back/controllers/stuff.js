@@ -65,7 +65,7 @@ exports.GetAllTicketWithTag = async (req, res) => {
 };
 exports.GetIdTag = async (req, res) => {
   const emp = req.body;
-  const IdTag = await Database.Read(DBPATH, " SELECT tags.idTag from tags WHERE name = ?",emp.id);
+  const IdTag = await Database.Read(DBPATH, " SELECT tags.idTag , tags.name from tags WHERE name = ?",emp.id);
   res.json(IdTag);
 };
 
