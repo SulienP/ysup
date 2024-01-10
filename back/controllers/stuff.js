@@ -1,5 +1,5 @@
 const Database = require("./Database_bis");
-const DBPATH = "./test.db";
+const DBPATH = "./hackathon-v2.db";
 const crypto = require("crypto");
 const jwt = require('jsonwebtoken');
 const jwt_key = 'loe4J7Id0Ry2SEDg09lKk';
