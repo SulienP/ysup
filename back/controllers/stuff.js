@@ -24,3 +24,34 @@ exports.isUserValid = async (req, res) => {
 exports.hello = async (req, res) => {
   res.json({ status: "hello" });
 };
+
+exports.GetAllProfile = async (req, res) => {
+    const allUsers = await Database.Read(DBPATH, "SELECT * FROM user");
+    res.json(allUsers);   
+};
+exports.GetProfilById = async (req, res) => {
+  const id = req.body;
+  const UserById = await Database.Read(DBPATH, "SELECT * FROM user WHERE id  = ?", id);
+  res.json(UserById);
+};
+exports.UpdateValues = async (req, res) => {
+  const { tableName, columnName, value, id } = req.body;
+  const Update = await Database.Write(DBPATH, "UPDATE ? SET ? = ? WHERE id = ?", tableName, columnName, value, id);
+  res.json(Update);
+};
+exports.CreateTicket = async (req, res) => {
+  const { title, content, file, status, date } = req.body;
+  const Create = await Database.Read(DBPATH, "INSERT INTO ticket(title,content,file,status,date) VALUES (?,?,?,?,?,?,?)", title, content, file, status, date);
+  res.json(Create);
+};
+exports.GetAllTicketWithTag = async (req, res) => {
+  const { tag } = req.body;
+  const TicketByTag = await Database.Read(DBPATH, "        SELECT tickets.title, tickets.content, tickets.status, tickets.dates FROM tickets INNER JOIN relation_users_tags ON tickets.idTicket = relation_users_tags.idRelationUserTag INNER JOIN relation_tags_groups ON relation_users_tags.idTag = relation_tags_groups.idTagWHERE relation_tags_groups.idTag = ?;", tag);
+  res.json(TicketByTag);
+
+};
+exports.GetIdTag = async (req, res) => {
+  const { id } = req.body;
+  const IdTag = await Database.Read(DBPATH, " SELECT tags.idTag from tags WHERE name = ?", id);
+  res.json(IdTag);
+};
