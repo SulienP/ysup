@@ -45,8 +45,8 @@ export const CreateTicketComp = () => {
                     <h3>Catégorie</h3>
                     <select className='select_tag' name="tags" value={selectedTag} onChange={(e) => setSelectedTag(e.target.value)}>
                         <option disabled>selectionner</option>
-                        {tags.map((tag) => (
-                            <option value={tag.id}>{tag.name}</option>
+                        {tags.map((tag , index) => (
+                            <option key={index}value={tag.id}>{tag.name}</option>
                         ))}
                     </select>
                 </article>

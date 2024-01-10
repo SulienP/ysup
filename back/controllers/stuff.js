@@ -156,20 +156,38 @@ exports.GetOneTicketById = async (req, res) => {
 // Create ticket
 exports.CreateTicket = async (req, res) => {
   const emp = req.body;
-  /*
-  !TODO : récupéré profile
-  */
-  const idIag = this.GetIdTag(tagName)
-  const Create = await Database.Write(
-    DBPATH,
-    "INSERT INTO ticket(idTicket,title,content,idTagTicket,file,status,date, idTag) VALUES (?,?,?,?,?,?,?,?)",
-    emp.title,
-    emp.content,
-    emp.idTagTicket,
-    emp.file,
-    emp.status,
-    emp.date,
-    idIag.idIag
-  );
-  res.json(Create);
+  let idUser = "";
+  jwt.verify(emp.jwt, jwt_key, async (err, decoded) => {
+    if (err) {
+      res.json({ idUser: "not found" });
+    } else {
+      let user = await Database.Read(
+        DBPATH,
+        "SELECT users.idUser FROM users WHERE users.email = ?",
+        decoded.email,
+      );
+      if (user.length == 0) {
+        res.json({ idUser: "not found" });
+        return;
+      }
+      idUser = user
+    }
+  });
+  console.log(idUser)
+
+
+  
+  // const idIag = this.GetIdTag(tagName)
+  // const Create = await Database.Write(
+  //   DBPATH,
+  //   "INSERT INTO ticket(idTicket,title,content,idTagTicket,file,status,date, idTag) VALUES (?,?,?,?,?,?,?,?)",
+  //   emp.title,
+  //   emp.content,
+  //   idIag,
+  //   emp.file,
+  //   emp.status,
+  //   emp.date,
+  //   idUser
+  // );
+  // res.json(Create);
 };
