@@ -78,24 +78,82 @@ exports.hello = async (req, res) => {
   res.json({ status: "hello" });
 };
 
+
+// Get profil
 exports.GetAllProfile = async (req, res) => {
     const allUsers = await Database.Read(DBPATH, "SELECT * FROM user");
     res.json(allUsers);   
 };
+
 exports.GetProfilByMail = async (req, res) => {
   const mail = req.body;
-  const UserById = await Database.Read(DBPATH, "SELECT * FROM user WHERE mail  = ?", mail.mail);
+  const UserByMAil = await Database.Read(DBPATH, "SELECT * FROM user WHERE mail  = ?", mail.mail);
+  res.json(UserByMAil);
+};
+
+exports.GetProfilById = async (req, res) => {
+  const id = req.body;
+  const UserById = await Database.Read(
+    DBPATH,
+    "SELECT * FROM user WHERE idUser  = ?",
+    id.idUser
+  );
   res.json(UserById);
 };
+
+// Get value
 exports.UpdateValues = async (req, res) => {
   const emp  = req.body;
   const Update = await Database.Write(DBPATH, "UPDATE ? SET ? = ? WHERE id = ?", emp.tableName, emp.columnName, emp.value, emp.id);
   res.json(Update);
 };
+
+// Update status 
+exports.UpdateStatus = async (req, res) => {
+  const emp = req.body;
+  const updateValue = await Database.Write(DBPATH, "UPDATE tickets SET status = ? WHERE idTicket = ?", emp.status, emp.idTicket);
+  res.json(updateValue);
+}
+
+// Get  tag
 exports.GetAllTags = async (req, res) => {
   const allTags = await Database.Read(DBPATH, "SELECT * FROM tags");
   res.json(allTags);
 };
+exports.GetAllTicketWithTag = async (req, res) => {
+  const emp = req.body;
+  const TicketByTag = await Database.Read(
+    DBPATH,
+    " SELECT tickets.idTicket, tickets.title, tickets.content, tickets.status, tickets.dates, groups.name AS 'group Name',groups.idGroup AS 'group ID',tags.idTag AS 'tag id',tags.name AS 'tag Name' FROM groups INNER JOIN relation_tags_groups ON groups.idGroup = relation_tags_groups.idGroupINNER JOIN  tags ON relation_tags_groups.idTag = tags.idTag INNER JOIN relation_users_tags ON tags.idTag = relation_users_tags.idTag INNER JOIN tickets ON relation_users_tags.idTicket = tickets.idTicket WHERE groups.idGroup = ?;",
+    emp.tag
+  );
+  res.json(TicketByTag);
+};
+exports.GetIdTag = async (req, res) => {
+  const emp = req.body;
+  const IdTag = await Database.Read(
+    DBPATH,
+    " SELECT tags.idTag from tags WHERE name = ?",
+    emp.name
+  );
+  res.json(IdTag);
+};
+
+// Get ticket 
+
+exports.GetOneTicketById = async (req, res) => {
+  const emp = req.body;
+  const ticketWithId = await Database.Read(
+    DBPATH,
+    " SELECT tickets.content, tickets.file, tickets.dates, tickets.status, tickets.idUser FROM tickets WHERE tickets.idTickets = ? ",
+    emp.idTicket
+  );
+  this.UserById(ticketWithId.idUser);
+  res.json(ticketWithId);
+};
+
+
+// Create ticket
 exports.CreateTicket = async (req, res) => {
   const emp = req.body;
   /*
@@ -114,19 +172,4 @@ exports.CreateTicket = async (req, res) => {
     idIag.idIag
   );
   res.json(Create);
-};
-exports.GetAllTicketWithTag = async (req, res) => {
-  const emp = req.body;
-  const TicketByTag = await Database.Read(
-    DBPATH,
-    " SELECT tickets.idTicket, tickets.title, tickets.content, tickets.status, tickets.dates, groups.name AS 'group Name',groups.idGroup AS 'group ID',tags.idTag AS 'tag id',tags.name AS 'tag Name' FROM groups INNER JOIN relation_tags_groups ON groups.idGroup = relation_tags_groups.idGroupINNER JOIN  tags ON relation_tags_groups.idTag = tags.idTag INNER JOIN relation_users_tags ON tags.idTag = relation_users_tags.idTag INNER JOIN tickets ON relation_users_tags.idTicket = tickets.idTicket WHERE groups.idGroup = ?;",
-    emp.tag
-  );
-    res.json(TicketByTag);
-
-};
-exports.GetIdTag = async (req, res) => {
-  const emp = req.body;
-  const IdTag = await Database.Read(DBPATH, " SELECT tags.idTag from tags WHERE name = ?",emp.name);
-  res.json(IdTag);
 };
