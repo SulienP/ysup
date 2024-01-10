@@ -95,7 +95,7 @@ exports.UpdateValues = async (req, res) => {
 exports.GetAllTags = async (req, res) => {
   const allTags = await Database.Read(DBPATH, "SELECT * FROM tags");
   res.json(allTags);
-}
+};
 exports.CreateTicket = async (req, res) => {
   const emp  = req.body;
   const Create = await Database.Write(
