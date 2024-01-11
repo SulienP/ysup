@@ -137,6 +137,13 @@ exports.GetAllTags = async (req, res) => {
   res.json(allTags);
 };
 
+exports.GetTicketByIdGroup = async (req, res) => {
+  const emp = req.body;
+  const ticketForGroup = await Database.Read(DBPATH, "SELECTgroups.idGroup,groups.name,groups.permission,relation_groups_users.idRelationGroupUser,relation_groups_users.groupID,relation_groups_users.userID,tickets.idUser AS 'ticket id User',tickets.content,tickets.dates,tickets.file,tickets.idTagTicket,tickets.idTicket,tickets.status,tickets.title FROM groups INNER JOIN relation_groups_users ON groups.idGroup = relation_groups_users.groupID INNER JOIN users AS group_users ON relation_groups_users.userID = group_users.idUser INNER JOIN tickets ON group_users.idUser = tickets.idUser WHERE groups.idGroup = ?;",
+    emp.idGroup);
+  res.json(ticketForGroup)
+}
+
 // Get  All tickets with tag
 exports.GetAllTicketWithTag = async (req, res) => {
   const emp = req.body;
@@ -185,6 +192,7 @@ exports.GetOneTicketById = async (req, res) => {
   );
   res.json(ticketWithId);
 };
+
 
 // Create ticket
 exports.CreateTicket = async (req, res) => {
