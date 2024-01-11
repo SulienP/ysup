@@ -140,10 +140,24 @@ exports.GetAllTicketWithTag = async (req, res) => {
   const emp = req.body;
   const TicketByTag = await Database.Read(
     DBPATH,
-    " SELECT tickets.idTicket, tickets.title, tickets.content, tickets.status, tickets.dates, groups.name AS 'group Name',groups.idGroup AS 'group ID',tags.idTag AS 'tag id',tags.name AS 'tag Name' FROM groups INNER JOIN relation_tags_groups ON groups.idGroup = relation_tags_groups.idGroupINNER JOIN  tags ON relation_tags_groups.idTag = tags.idTag INNER JOIN relation_users_tags ON tags.idTag = relation_users_tags.idTag INNER JOIN tickets ON relation_users_tags.idTicket = tickets.idTicket WHERE groups.idGroup = ?;",
+    " SELECT tickets.idTicket, tickets.title, tickets.content, tickets.idTagTicket, tickets.file, tickets.status , tickets.dates, users.email, users.firstname,users.idUser,users.image, users.lastname FROM tickets INNER JOIN users ON tickets.idUser = users.idUser WHERE tickets.idTagTicket = ? ORDER BY tickets.dates DESC ;",
     emp.tag
   );
   res.json(TicketByTag);
+};
+exports.UpdateTag = async (req, res) => {
+  const emp = req.body;
+  const updatetag = await Database.Write(
+    DBPATH,
+    "UPDATE tickets SET idTagTicket = ? WHERE tickets.idTicket = ?",
+    emp.idTag,
+    emp.idTicket
+  )
+  if (updatetag == null) {
+    res.json({status : true})
+  } else {
+    res.json({status : false})
+  }
 };
 exports.GetIdTag = async (req, res) => {
   const emp = req.body;

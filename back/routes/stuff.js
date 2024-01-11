@@ -10,6 +10,6 @@ router.get('/getalltags',stuffCtrl.GetAllTags);
 router.post('/createticket',stuffCtrl.CreateTicket);
 router.post('/getoneticket',stuffCtrl.GetOneTicketById);
 router.put('/updateTicketStatus',stuffCtrl.UpdateStatus);
-router.put ('/updateTicketTag');
+router.put ('/updateTicketTag',stuffCtrl.UpdateTag);
 
 module.exports = router;
