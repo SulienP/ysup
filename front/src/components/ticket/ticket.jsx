@@ -45,7 +45,7 @@ const ComponentsTicket = ({ ticketId, firstname, lastname, tagName, group, title
                 <ul>
                     <li>
                         <p>Envoyé par :</p>
-                        <img src={profilePicture ?? logo}></img>
+                        <img src={profilePicture != "" ? profilePicture : logo}></img>
                     </li>
                     <li><p>Nom :</p> {lastname}</li>
                     <li><p>Prénom :</p> {firstname}</li>

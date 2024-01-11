@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../../utils/constants";
 import { getCookie } from "../../services/jwt_services";
+import { useNavigate } from "react-router-dom";
 
 export const CreateTicketComp = () => {
   const [tags, setTags] = useState([]);
@@ -14,6 +15,7 @@ export const CreateTicketComp = () => {
   const [file, setFile] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const maxLengthTitle = 50;
+  const navigate = useNavigate();
 
   const handleTitle = (txt) => {
     if (title.length < maxLengthTitle) {
@@ -29,6 +31,7 @@ export const CreateTicketComp = () => {
   }, [cookieJwt]);
 
   const handleSubmit = () => {
+    console.log(cookieJwt);
     if (cookieJwt) {
       axios
         .post(apiUrl + "createticket", {
@@ -38,6 +41,8 @@ export const CreateTicketComp = () => {
           content: contentTicket,
           file: file,
           date: new Date(),
+        }).then(()=> {
+          navigate('/')
         })
         .catch((err) => console.log(err));
     } else {

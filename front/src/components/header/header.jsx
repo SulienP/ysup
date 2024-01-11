@@ -13,9 +13,9 @@ const HeaderPage = () => {
                     <Link className="button-ticket rowContainer alignCenter" to={"/create-ticket"}>
                         Creation ticket
                     </Link>
-                    <button className="button-avatar" aria-haspopup="true">
+                    <Link to={'/connexion'} className="button-avatar" aria-haspopup="true">
                         <img className="user-avatar" src="/logoProfile.png" />
-                    </button>
+                    </Link>
                 </div>
             </div>
         </header>

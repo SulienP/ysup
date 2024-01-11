@@ -35,7 +35,6 @@ const HomePage = () => {
             .then((response) => {
                 setTickets(response.data)
                 setFilteredTickets(response.data);
-                console.log(response.data);
             })
             .catch((err) => {
                 SetErrorMsg(err.message);
@@ -48,12 +47,22 @@ const HomePage = () => {
     }, [])
 
     const handleSearch = () => {
-        const filteredResults = tickets.filter(ticket => {
-            const fullName = `${ticket.firstname} ${ticket.lastname}`;
-            return fullName.toLowerCase().includes(searchContent.toLowerCase());
-        });
+        const filteredResults = tickets
+            .filter(ticket => {
+                const fullName = `${ticket.lastname} ${ticket.firstname}`;
+                return fullName.toLowerCase().startsWith(searchContent.toLowerCase());
+            })
+            .sort((a, b) => {
+                const nameA = `${a.firstname} ${a.lastname}`.toLowerCase();
+                const nameB = `${b.firstname} ${b.lastname}`.toLowerCase();
+                if (nameA < nameB) return -1;
+                if (nameA > nameB) return 1;
+                return 0; 
+            });
+    
         setFilteredTickets(filteredResults);
-    }
+    };
+    
 
     const handleSwitchTag = (data) => {
         axios.post(apiUrl + 'getAllTickets', { tag: data })
@@ -81,24 +90,27 @@ const HomePage = () => {
             <div className="separator"></div>
             <div className="search_container rowContainer ">
                 <img src={searcheLogo} />
-                <input type="text" onChange={(e) => { setSearchContent(e.target.value) }} placeholder="Rechercher ..." />
+                <input type="text" onChange={(e) => { setSearchContent(e.target.value) }} placeholder="Rechercher nom, prénom ..." />
             </div>
             <div className="ticket">
                 {filteredTickets.length > 0 ? (
                     filteredTickets.map((ticket, index) => {
-                        if (ticket.status !== 3) {
-                            <ComponentsTicket
-                                key={index}
-                                ticketId={ticket.idTicket}
-                                firstname={ticket.firstname}
-                                lastname={ticket.lastname}
-                                tagName={ticket.name}
-                                group={ticket.group}
-                                title={ticket.title}
-                                profilePicture={ticket.file}
-                                status={ticket.status}
-                                date={ticket.dates}
-                            />
+                        if (ticket.status != 3) {
+                            return (
+                                <ComponentsTicket
+                                    key={index}
+                                    ticketId={ticket.idTicket}
+                                    firstname={ticket.firstname}
+                                    lastname={ticket.lastname}
+                                    title={ticket.title}
+                                    tagName={ticket.tagName}
+                                    group={ticket.groupName}
+
+                                    profilePicture={ticket.file}
+                                    status={ticket.status}
+                                    date={ticket.dates}
+                                />
+                            )
                         }
                     })
                 ) : (
