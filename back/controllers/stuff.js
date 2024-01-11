@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const jwt_key = "loe4J7Id0Ry2SEDg09lKk";
 const { v4: uuidv4 } = require("uuid");
+const { SendMail } = require("../service/mailSender");
 
 const hashPassword = (algorithm, base, passwd) => {
   return crypto.createHash(algorithm).update(passwd).digest(base);
@@ -141,7 +142,7 @@ exports.GetTicketByIdGroup = async (req, res) => {
   const emp = req.body;
   const ticketForGroup = await Database.Read(
     DBPATH,
-    "SELECTgroups.idGroup,groups.name,groups.permission,relation_groups_users.idRelationGroupUser,relation_groups_users.groupID,relation_groups_users.userID,tickets.idUser AS 'ticket id User',tickets.content,tickets.dates,tickets.file,tickets.idTagTicket,tickets.idTicket,tickets.status,tickets.title FROM groups INNER JOIN relation_groups_users ON groups.idGroup = relation_groups_users.groupID INNER JOIN users AS group_users ON relation_groups_users.userID = group_users.idUser INNER JOIN tickets ON group_users.idUser = tickets.idUser WHERE groups.idGroup = ?;",
+    "SELECT groups.idGroup,groups.name,groups.permission,relation_groups_users.idRelationGroupUser,relation_groups_users.groupID,relation_groups_users.userID,tickets.idUser AS 'ticket id User',tickets.content,tickets.dates,tickets.file,tickets.idTagTicket,tickets.idTicket,tickets.status,tickets.title FROM groups INNER JOIN relation_groups_users ON groups.idGroup = relation_groups_users.groupID INNER JOIN users AS group_users ON relation_groups_users.userID = group_users.idUser INNER JOIN tickets ON group_users.idUser = tickets.idUser WHERE groups.idGroup = ?;",
     emp.idGroup
   );
   res.json(ticketForGroup);
@@ -245,6 +246,46 @@ exports.CreateTicket = async (req, res) => {
           user[0].idUser
         );
       }
+    }
+  });
+};
+
+exports.InsertMail = async (req, res) => {
+  const emp = req.body;
+  const newUUID = uuidv4();
+  jwt.verify(emp.jwt, jwt_key, async (err, decoded) => {
+    if (err) {
+      res.json({ idUser: err.message });
+    } else {
+      let user = await Database.Read(
+        DBPATH,
+        "SELECT users.idUser FROM users WHERE users.email = ?",
+        decoded.email
+      );
+      const responseInsertResult = await Database.Write(
+        DBPATH,
+        "INSERT INTO responses (idResponse ,idUser, content, mailingDate) VALUES (?,?, ?, ?);",
+        newUUID,
+        user[0].idUser,
+        emp.content,
+        emp.mailingDate
+      );
+      await Database.Write(
+        DBPATH,
+        "INSERT INTO relation_reponses_tickets (idTicket, idResponse) VALUES (?, ?);",
+        emp.idTicket,
+        newUUID
+      ).then(() => {
+        Database.Read(
+          DBPATH,
+          "SELECT users.email FROM users JOIN tickets ON tickets.idUser = users.idUser WHERE tickets.idTicket = ?;",
+          emp.idTicket
+        ).then((response) => {
+          // ajouter mail perso pour démo
+          SendMail(emp.content, emp.idTicket, response.email, decoded.email);
+        });
+        res.json({ status: true });
+      });
     }
   });
 };
