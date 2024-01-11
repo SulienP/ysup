@@ -145,7 +145,7 @@ exports.GetAllTicketWithTag = async (req, res) => {
   );
   res.json(TicketByTag);
 };
-exports.UpdateTag() = async (res, req) => {
+exports.UpdateTag = async (res, req) => {
   const emp = req.body;
   const UpdateTicket = await Database.Write(
     DBPATH,
