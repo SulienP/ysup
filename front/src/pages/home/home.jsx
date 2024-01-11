@@ -10,7 +10,6 @@ import searcheLogo from "../../assets/Images/search_logo.svg";
 import "./home.css";
 
 const HomePage = () => {
-    const [permissions, setPermissions] = useState("");
     const [errorMsg, SetErrorMsg] = useState("");
     const [cookieJwt, setCookieJwt] = useState("");
     const [tickets, setTickets] = useState([]);
@@ -18,20 +17,11 @@ const HomePage = () => {
     const [filteredTickets, setFilteredTickets] = useState([]);
     const [tags, setTags] = useState([]);
 
-    useEffect(() => {
-        setCookieJwt(getCookie());
-        const getPerm = async (cookieJwt) => {
-            await axios.post(apiUrl + 'isjwtvalid', { "jwt": cookieJwt }).then((response) => {
-                setPermissions(response.data.permission);
-            }).catch((err) => {
-                SetErrorMsg(err);
-            })
-        }
-        getPerm(cookieJwt);
-    }, [cookieJwt]);
+ 
 
     useEffect(() => {
-        axios.post(apiUrl + 'getAllTickets', { tag: 1 })
+        setCookieJwt(getCookie());
+        axios.post(apiUrl + 'getAllTickets', { tag: 1 ,jwt: getCookie() ?? "" })
             .then((response) => {
                 setTickets(response.data)
                 setFilteredTickets(response.data);
@@ -65,7 +55,7 @@ const HomePage = () => {
     
 
     const handleSwitchTag = (data) => {
-        axios.post(apiUrl + 'getAllTickets', { tag: data })
+        axios.post(apiUrl + 'getAllTickets', { tag: data , jwt: cookieJwt })
             .then((response) => {
                 setTickets(response.data)
                 setFilteredTickets(response.data);
@@ -105,7 +95,6 @@ const HomePage = () => {
                                     title={ticket.title}
                                     tagName={ticket.tagName}
                                     group={ticket.groupName}
-
                                     profilePicture={ticket.file}
                                     status={ticket.status}
                                     date={ticket.dates}

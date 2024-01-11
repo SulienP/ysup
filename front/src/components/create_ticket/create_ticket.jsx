@@ -31,7 +31,6 @@ export const CreateTicketComp = () => {
   }, [cookieJwt]);
 
   const handleSubmit = () => {
-    console.log(cookieJwt);
     if (cookieJwt) {
       axios
         .post(apiUrl + "createticket", {
@@ -44,7 +43,7 @@ export const CreateTicketComp = () => {
         }).then(()=> {
           navigate('/')
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
     } else {
       setErrorMsg("Utilisateur non connecté");
     }
