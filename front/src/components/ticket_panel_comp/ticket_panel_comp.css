@@ -1,0 +1,107 @@
+.container_ticketpanel_page {
+  margin-top: 80px;
+  gap: 2rem;
+  width: 100%;
+  justify-content: center;
+  min-height: 65vh;
+  box-sizing: border-box;
+}
+
+.container_panel_btn {
+  width: 25%;
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+
+.container_ticketpanel_page .ticket {
+  background-color: var(--lightgray);
+  padding: 3rem;
+  border-radius: 15px;
+  width: 50%;
+  gap: 1rem;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.ticket .user_title {
+  font-family: "montserrat-medium", sans-serif;
+  color: var(--black);
+  font-size: 18px;
+}
+
+.ticket .motif_ticket {
+  gap: 2rem;
+  font-family: "montserrat-medium", sans-serif;
+}
+
+.ticket .motif_ticket_bold {
+  font-family: "montserrat-bold", sans-serif;
+}
+
+.ticket .content_ticket {
+  overflow-x: hidden;
+  font-family: "source-sans-pro-thin", sans-serif;
+}
+
+.error_msg_panel {
+    font-family: "montserrat-bold", sans-serif;
+    font-size: 32px;
+    color: var(--red);
+    text-align: center;
+}
+
+.btn_close_ticket {
+  color: var(--white);
+  background-color: var(--red);
+}
+
+.btn_green_ticket {
+  color: var(--black);
+  background-color: var(--green);
+}
+
+.btn_close_ticket:hover {
+  transform: translateY(-3px);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.btn_ticket_panel {
+  font-family: "montserrat-medium", sans-serif;
+  outline: none;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.btn_ticket_panel:hover {
+  transform: translateY(-3px);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.textarea_response {
+  outline: none;
+  border: none;
+  resize: none;
+  border: 2px solid var(--green);
+  font-family: "source-sans-pro-thin", sans-serif;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.btn_response_ticket {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.select_tag_menu {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: 2px solid var(--green);
+    cursor: pointer;
+}
