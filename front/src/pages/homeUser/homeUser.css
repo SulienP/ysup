@@ -1,0 +1,47 @@
+#root {
+    height: 100%;
+    min-width: 760px;
+}
+.homeUser {
+    position: relative;
+    min-height: 100vh;
+    height: 100%;
+}
+.Affichage {
+    width: 60%;
+    height: 100%;
+    background: #666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contenant {
+    display: flex;
+    justify-content: space-between;
+    height: 85%;
+    position: relative;
+    padding-bottom: 60px;
+}
+.separator {
+    width: 80%;
+    height: 0;
+    border: 1px #C3C3C3 solid;
+    margin: 20px;
+}
+.content-ticket {
+    height: 60vh;
+    overflow: auto;
+    position: relative;
+}
+.ticketUser {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+.myTicket {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    align-items: center;
+    justify-content: center;
+}
