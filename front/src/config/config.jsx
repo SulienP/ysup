@@ -13,7 +13,7 @@ const Ways = () => {
                 <Route path="*" element={<ErrorPage />}/>
                 <Route path="/connexion" element={<LoginPage/>}/>
                 <Route path="/create-ticket" element={<CreateTicketPage/>}/>
-                <Route path="/ticket-panel" element={<TicketPanel/>}/>
+                <Route path="/ticket-panel/*" element={<TicketPanel/>}/>
             </Routes>
         </BrowserRouter>
     )
