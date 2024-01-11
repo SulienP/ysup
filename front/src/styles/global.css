@@ -3,11 +3,13 @@
     --red : #EC4363;
     --black : #333333;
     --white : #FFFFFF;
+    --lightgray : #EBEBEB;
 }
 
 body {
     margin: 0;
     padding: 0;
+    min-height: 100vh;
 }
 
 h1,h2,h3,h4,h5,p {

@@ -1,0 +1,18 @@
+.separator {
+    width: 80%;
+    height: 0;
+    border: 1px #C3C3C3 solid;
+    margin: 20px;
+}
+.ticket, .nav-categorie {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.ticket {
+    padding-bottom: 60px;
+}
+.home {
+    position: relative;
+    min-height: 100vh;
+}
