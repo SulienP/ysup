@@ -11,5 +11,6 @@ router.post('/createticket',stuffCtrl.CreateTicket);
 router.post('/getoneticket',stuffCtrl.GetOneTicketById);
 router.put('/updateTicketStatus',stuffCtrl.UpdateStatus);
 router.put ('/updateTicketTag',stuffCtrl.UpdateTag);
+router.post('/getAllTickets',stuffCtrl.GetAllTicketWithTag);
 
 module.exports = router;

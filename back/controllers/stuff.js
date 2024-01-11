@@ -136,6 +136,8 @@ exports.GetAllTags = async (req, res) => {
   const allTags = await Database.Read(DBPATH, "SELECT * FROM tags");
   res.json(allTags);
 };
+
+// Get  All tickets with tag
 exports.GetAllTicketWithTag = async (req, res) => {
   const emp = req.body;
   const TicketByTag = await Database.Read(
