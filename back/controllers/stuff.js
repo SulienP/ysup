@@ -124,7 +124,7 @@ exports.GetAllTicketWithTag = async (req, res) => {
   const emp = req.body;
   const TicketByTag = await Database.Read(
     DBPATH,
-    " SELECT tickets.idTicket, tickets.title, tickets.content, tickets.idTagTicket, tickets.file, tickets.status , tickets.dates, users.email, users.firstname,users.idUser,users.image, users.lastname FROM tickets INNER JOIN users ON tickets.idUser = users.idUser WHERE tickets.idTagTicket = ?;",
+    " SELECT tickets.idTicket, tickets.title, tickets.content, tickets.idTagTicket, tickets.file, tickets.status , tickets.dates, users.email, users.firstname,users.idUser,users.image, users.lastname FROM tickets INNER JOIN users ON tickets.idUser = users.idUser WHERE tickets.idTagTicket = ? ORDER BY tickets.dates DESC ;",
     emp.tag
   );
   res.json(TicketByTag);
