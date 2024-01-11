@@ -139,21 +139,43 @@ exports.GetAllTags = async (req, res) => {
 
 exports.GetTicketByIdGroup = async (req, res) => {
   const emp = req.body;
-  const ticketForGroup = await Database.Read(DBPATH, "SELECTgroups.idGroup,groups.name,groups.permission,relation_groups_users.idRelationGroupUser,relation_groups_users.groupID,relation_groups_users.userID,tickets.idUser AS 'ticket id User',tickets.content,tickets.dates,tickets.file,tickets.idTagTicket,tickets.idTicket,tickets.status,tickets.title FROM groups INNER JOIN relation_groups_users ON groups.idGroup = relation_groups_users.groupID INNER JOIN users AS group_users ON relation_groups_users.userID = group_users.idUser INNER JOIN tickets ON group_users.idUser = tickets.idUser WHERE groups.idGroup = ?;",
-    emp.idGroup);
-  res.json(ticketForGroup)
-}
+  const ticketForGroup = await Database.Read(
+    DBPATH,
+    "SELECTgroups.idGroup,groups.name,groups.permission,relation_groups_users.idRelationGroupUser,relation_groups_users.groupID,relation_groups_users.userID,tickets.idUser AS 'ticket id User',tickets.content,tickets.dates,tickets.file,tickets.idTagTicket,tickets.idTicket,tickets.status,tickets.title FROM groups INNER JOIN relation_groups_users ON groups.idGroup = relation_groups_users.groupID INNER JOIN users AS group_users ON relation_groups_users.userID = group_users.idUser INNER JOIN tickets ON group_users.idUser = tickets.idUser WHERE groups.idGroup = ?;",
+    emp.idGroup
+  );
+  res.json(ticketForGroup);
+};
 
 // Get  All tickets with tag
 exports.GetAllTicketWithTag = async (req, res) => {
   const emp = req.body;
-  const TicketByTag = await Database.Read(
-    DBPATH,
-    "SELECT tickets.idTicket,  users.firstname,users.lastname,tickets.title,  tickets.file, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idTagTicket = ? AND groups.idGroup = ? ORDER BY tickets.dates DESC ;",
-    emp.tag,
-    emp.idGroup
-  );
-  res.json(TicketByTag);
+  jwt.verify(emp.jwt, jwt_key, async (err, decoded) => {
+    if (err) {
+      res.json({ idUser: err.message });
+    } else {
+      const group = await Database.Read(
+        DBPATH,
+        "SELECT DISTINCT groups.name , groups.idGroup FROM groups INNER JOIN relation_tags_groups ON groups.idGroup = relation_tags_groups.idGroup INNER JOIN tags ON relation_tags_groups.idTag = tags.idTag INNER JOIN tickets ON tags.idTag = tickets.idTagTicket INNER JOIN users ON tickets.idUser = users.idUser WHERE users.email = ?",
+        decoded.email
+      );
+      if (group.length === 0) {
+        res.json({ status: false });
+      } else {
+        const TicketByTag = await Database.Read(
+          DBPATH,
+          "SELECT tickets.idTicket,  users.firstname,users.lastname,tickets.title,  tickets.file, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idTagTicket = ? AND groups.idGroup = ? ORDER BY tickets.dates DESC ;",
+          emp.tag,
+          group[0].idGroup
+        );
+        if (group.length === 0) {
+          res.json({ status: false });
+        } else {
+          res.json(TicketByTag);
+        }
+      }
+    }
+  });
 };
 
 exports.UpdateTag = async (res, req) => {
@@ -163,11 +185,11 @@ exports.UpdateTag = async (res, req) => {
     "UPDATE tickets SET idTagTicket = ? WHERE tickets.idTicket = ?",
     emp.idTag,
     emp.idTicket
-  )
+  );
   if (updatetag == null) {
-    res.json({status : true})
+    res.json({ status: true });
   } else {
-    res.json({status : false})
+    res.json({ status: false });
   }
 };
 
@@ -193,7 +215,6 @@ exports.GetOneTicketById = async (req, res) => {
   res.json(ticketWithId);
 };
 
-
 // Create ticket
 exports.CreateTicket = async (req, res) => {
   const emp = req.body;
@@ -208,7 +229,6 @@ exports.CreateTicket = async (req, res) => {
         decoded.email
       );
       if (user.length == 0) {
-        console.error("length");
         res.json({ idUser: "not found" });
         return;
       } else {
@@ -224,9 +244,7 @@ exports.CreateTicket = async (req, res) => {
           emp.date,
           user[0].idUser
         );
-        console.log(insertTicket);
       }
     }
   });
 };
-
