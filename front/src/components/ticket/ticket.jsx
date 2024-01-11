@@ -6,7 +6,7 @@ import logo from "../../assets/Images/logoProfile.png";
 
 const ComponentsTicket = () => {
     return (
-        <div className="ticket">
+        <div className="ticketComp">
             <div className="header-ticket">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <circle cx="10" cy="6" r="6" fill="#9B9B9B"/>
