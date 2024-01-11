@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { getCookie } from "../../services/jwt_services";
 import axios from "axios";
 import { apiUrl } from "../../utils/constants";
+import HeaderPage from "../../components/header/header";
+import ComponentsTicket from "../../components/ticket/ticket";
+import FooterPage from '../../components/footer/footer';
 
 const HomePage = () => {
     const [permissions, setPermissions] = useState("");
@@ -22,8 +25,9 @@ const HomePage = () => {
 
     return (
         <div>
-            <h1>Home</h1>
-            <p>{permissions}</p>
+            <HeaderPage/>
+            <ComponentsTicket/>
+            <FooterPage/>
         </div>
     )
 };
