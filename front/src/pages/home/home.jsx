@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import { getCookie } from "../../services/jwt_services";
 import axios from "axios";
 import { apiUrl } from "../../utils/constants";
+import HeaderPage from "../../components/header/header";
+import ComponentsTicket from "../../components/ticket/ticket";
+import FooterPage from '../../components/footer/footer';
+import RechercheComp from "../../components/recherche/recherche_comp";
+import CategorieComp from "../../components/categorie/categorie_comp";
+import "./home.css";
 
 const HomePage = () => {
     const [permissions, setPermissions] = useState("");
@@ -21,9 +27,23 @@ const HomePage = () => {
     }, [cookieJwt]);
 
     return (
-        <div>
-            <h1>Home</h1>
-            <p>{permissions}</p>
+        <div className="home">
+            <HeaderPage/>
+            <div className="nav-categorie">
+                <CategorieComp/>
+                <CategorieComp/>
+            </div>
+            <div className="separator"></div>
+            <RechercheComp/>
+            <div className="ticket">
+                <ComponentsTicket/>
+                <ComponentsTicket/>
+                <ComponentsTicket/>
+                <ComponentsTicket/>
+                <ComponentsTicket/>
+                <ComponentsTicket/>
+            </div>
+            <FooterPage/>
         </div>
     )
 };

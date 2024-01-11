@@ -1,0 +1,96 @@
+/*--------------- Containers ---------------*/
+
+.container_add_ticket {
+    background-color: var(--lightgray);
+    border-radius: 15px;
+    margin: 1rem;
+    overflow: hidden;
+    width: 50vw;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
+    height: fit-content;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    transform: translate(-50% , -55%);
+}
+
+.container_add_ticket section {
+    margin: 1rem 2rem;
+    gap: 0.5rem;
+}
+
+.container_add_ticket article {
+    gap: 0.5rem;
+}
+
+.container_add_ticket .container_tag_file {
+    justify-content: start;
+    align-items: center;
+    gap: 5rem;
+}
+
+
+/*--------------- Texts ---------------*/
+
+.container_add_ticket h1 {
+    font-family: 'montserrat-bold',sans-serif;
+    font-size: 28px;
+    background-color: var(--green);
+    padding: 2rem;
+    text-align: center;
+    color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+.container_add_ticket section h3 {
+    font-family: 'source-sans-pro-medium' , sans-serif;
+}
+
+.container_add_ticket .errorMsg {
+    color: var(--red);
+    text-align: center;
+    overflow-x: hidden;
+    white-space: nowrap;
+    font-family: 'source-sans-pro-thin' , sans-serif;
+    margin-bottom: 0.5rem;
+}
+
+/*--------------- Others ---------------*/
+
+.container_add_ticket .select_tag {
+    background-color: var(--white);
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.container_add_ticket .submit_btn {
+    background-color: var(--red);
+    outline:  none;
+    border: none;
+    font-family: 'montserrat-bold',sans-serif;
+    color: white;
+    font-size: 18px;
+    padding: 1rem;
+}
+
+.container_add_ticket .submit_btn:hover {
+    background-color: #ec43622d;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.container_add_ticket .input_content {
+    background-color: var(--white);
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    width: 100%;
+    resize: none;
+    padding: 0.5rem;
+    font-family: 'source-sans-pro-medium' , sans-serif;
+}
+

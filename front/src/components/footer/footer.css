@@ -1,0 +1,14 @@
+.footer {
+    width: 100%;
+    background-color: #23B2A4;
+    padding: 20px 0;
+    bottom: 0;
+    position: absolute;
+    
+
+}
+.footer p {
+    color: white;
+    justify-content: space-between;
+    text-align: center;
+}
