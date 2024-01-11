@@ -136,26 +136,34 @@ exports.GetAllTags = async (req, res) => {
   const allTags = await Database.Read(DBPATH, "SELECT * FROM tags");
   res.json(allTags);
 };
+
+// Get  All tickets with tag
 exports.GetAllTicketWithTag = async (req, res) => {
   const emp = req.body;
   const TicketByTag = await Database.Read(
     DBPATH,
-    "SELECT tickets.idTicket,  users.firstname,users.lastname,tickets.title, tickets.content,  tickets.file, tickets.status , tickets.dates, users.email,users.idUser,users.image,  tags.name AS 'tag Name',groups.name AS 'group Name' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idTagTicket = ? ORDER BY tickets.dates DESC ;",
-    emp.tag
+    "SELECT tickets.idTicket,  users.firstname,users.lastname,tickets.title,  tickets.file, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idTagTicket = ? AND groups.idGroup = ? ORDER BY tickets.dates DESC ;",
+    emp.tag,
+    emp.idGroup
   );
   res.json(TicketByTag);
 };
+
 exports.UpdateTag = async (res, req) => {
   const emp = req.body;
-  const UpdateTicket = await Database.Write(
+  const updatetag = await Database.Write(
     DBPATH,
     "UPDATE tickets SET idTagTicket = ? WHERE tickets.idTicket = ?",
-    emp.idTicket,
-    emp.idTag
+    emp.idTag,
+    emp.idTicket
   )
-  res.json(UpdateTicket)
-
+  if (updatetag == null) {
+    res.json({status : true})
+  } else {
+    res.json({status : false})
+  }
 };
+
 exports.GetIdTag = async (req, res) => {
   const emp = req.body;
   const IdTag = await Database.Read(
@@ -172,10 +180,9 @@ exports.GetOneTicketById = async (req, res) => {
   const emp = req.body;
   const ticketWithId = await Database.Read(
     DBPATH,
-    " SELECT tickets.content, tickets.file, tickets.dates, tickets.status, tickets.idUser FROM tickets WHERE tickets.idTickets = ? ",
+    " SELECT tickets.title ,tickets.content, tags.name, tickets.file, tickets.dates, tickets.status,users.firstname,users.lastname FROM tickets JOIN users ON users.idUser = tickets.idUser JOIN tags ON tags.idTag = tickets.idTagTicket WHERE tickets.idTicket = ? ; ",
     emp.idTicket
   );
-  this.UserById(ticketWithId.idUser);
   res.json(ticketWithId);
 };
 
