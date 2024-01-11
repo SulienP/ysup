@@ -1,7 +1,13 @@
 require("dotenv").config();
+require("../controllers/stuff")
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
+const { Database } = require("sqlite3");
 const OAuth2 = google.auth.OAuth2;
+
+
+const user = Database.GetProfilById(userID);
+const ticket = Database.GetOneTicketById(idTicket);
 
 const oauth2Client = new OAuth2(
   process.env.CLIENT_ID,
@@ -27,10 +33,11 @@ let transporter = nodemailer.createTransport({
     accessToken,
   },
 });
+const content = "un texte vraiment utile pour spam les mails";
 
 transporter.sendMail({
   from: process.env.USER_EMAIL_SENDER,
-  to: "sulien20p@gmail.com",
-  subject: "Sending email using Nodemailer and OAuth 2.0",
-  text: "Sent!",
+  to: user.userMail,
+  subject: ticket.Title + "Response to",
+  text: content,
 });
