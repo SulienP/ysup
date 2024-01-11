@@ -161,10 +161,9 @@ exports.GetOneTicketById = async (req, res) => {
   const emp = req.body;
   const ticketWithId = await Database.Read(
     DBPATH,
-    " SELECT tickets.content, tickets.file, tickets.dates, tickets.status, tickets.idUser FROM tickets WHERE tickets.idTickets = ? ",
+    " SELECT tickets.title ,tickets.content, tags.name, tickets.file, tickets.dates, tickets.status,users.firstname,users.lastname FROM tickets JOIN users ON users.idUser = tickets.idUser JOIN tags ON tags.idTag = tickets.idTagTicket WHERE tickets.idTicket = ? ; ",
     emp.idTicket
   );
-  this.UserById(ticketWithId.idUser);
   res.json(ticketWithId);
 };
 
