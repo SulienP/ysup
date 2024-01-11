@@ -1,0 +1,162 @@
+/*-------------- Responsive --------------*/
+
+@media screen and (min-width: 900px) {
+  .container_ticketpanel_page {
+    flex-direction: row;
+  }
+  .container_ticketpanel_page .ticket_panel {
+    width: 50%;
+  }
+  .container_panel_btn {
+    width: 25%;
+  }
+  .ticket_panel .user_title {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .container_ticketpanel_page {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 6rem;
+  }
+  .container_ticketpanel_page .ticket_panel {
+    width: calc(300px - 6rem);
+  }
+  .container_panel_btn {
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .ticket_panel .user_title {
+    font-size: 15px;
+  }
+
+  .ticket_panel .motif_ticket {
+    font-size: 14px;
+  }
+
+  .ticket_panel .motif_ticket_bold {
+    font-size: 14px;
+  }
+}
+
+/*-------------- Containers --------------*/
+
+.container_ticketpanel_page {
+  display: flex;
+  margin-top: 120px;
+  gap: 2rem;
+  width: 100%;
+  justify-content: center;
+  min-height: 65vh;
+  box-sizing: border-box;
+}
+
+.container_panel_btn {
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+
+.container_ticketpanel_page .ticket_panel {
+  background-color: var(--lightgray);
+  padding: 3rem;
+  border-radius: 15px;
+  gap: 1rem;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+/*-------------- Texts --------------*/
+
+.ticket_panel .user_title {
+  font-family: "montserrat-medium", sans-serif;
+  color: var(--black);
+}
+
+.ticket_panel .motif_ticket {
+  gap: 2rem;
+  font-family: "montserrat-medium", sans-serif;
+}
+
+.ticket_panel .motif_ticket_bold {
+  font-family: "montserrat-bold", sans-serif;
+}
+
+.ticket_panel .content_ticket {
+  overflow-x: hidden;
+  font-family: "source-sans-pro-thin", sans-serif;
+}
+
+.error_msg_panel {
+  font-family: "montserrat-bold", sans-serif;
+  font-size: 32px;
+  color: var(--red);
+  text-align: center;
+}
+
+/*-------------- Buttons --------------*/
+
+.btn_close_ticket {
+  color: var(--white);
+  background-color: var(--red);
+}
+
+.btn_green_ticket {
+  color: var(--black);
+  background-color: var(--green);
+}
+
+.btn_close_ticket:hover {
+  transform: translateY(-3px);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.btn_ticket_panel {
+  font-family: "montserrat-medium", sans-serif;
+  outline: none;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.btn_ticket_panel:hover {
+  transform: translateY(-3px);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.btn_response_ticket {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+/*-------------- Others --------------*/
+
+.textarea_response {
+  outline: none;
+  border: none;
+  resize: none;
+  border: 2px solid var(--green);
+  font-family: "source-sans-pro-thin", sans-serif;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.select_tag_menu {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 2px solid var(--green);
+  cursor: pointer;
+}
+
+.separation_ticket_cat {
+  height: 1px;
+  background-color: var(--black);
+  width: 100%;
+}
