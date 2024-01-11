@@ -1,69 +1,76 @@
+/*-------------- Colors --------------*/
+
 :root {
-    --green : #23B2A4;
-    --red : #EC4363;
-    --black : #333333;
-    --white : #FFFFFF;
-    --lightgray : #EBEBEB;
+  --green: #23b2a4;
+  --red: #ec4363;
+  --black: #333333;
+  --white: #ffffff;
+  --lightgray: #ebebeb;
 }
+
+/*-------------- Containers --------------*/
 
 body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-}
-
-html, body {
-    height: 100%;
-}
-
-h1,h2,h3,h4,h5,p {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
 
 .columnContainer {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .rowContainer {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .alignCenter {
-    align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+/*-------------- Texts --------------*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+/*-------------- Fonts --------------*/
+
+@font-face {
+  font-family: "montserrat-medium";
+  src: url("../assets/Fonts/montserrat/montserrat/ttf/Montserrat-Medium.ttf");
 }
 
 @font-face {
-    font-family: 'montserrat-medium';
-    src: url('../assets/Fonts/montserrat/montserrat/ttf/Montserrat-Medium.ttf');
+  font-family: "montserrat-bold";
+  src: url("../assets/Fonts/montserrat/montserrat/ttf/Montserrat-Bold.ttf");
 }
 
 @font-face {
-    font-family: 'montserrat-bold';
-    src: url('../assets/Fonts/montserrat/montserrat/ttf/Montserrat-Bold.ttf');
+  font-family: "montserrat-thin";
+  src: url("../assets/Fonts/montserrat/montserrat/ttf/Montserrat-Thin.ttf");
 }
 
 @font-face {
-    font-family: 'montserrat-thin';
-    src: url('../assets/Fonts/montserrat/montserrat/ttf/Montserrat-Thin.ttf');
+  font-family: "source-sans-pro-thin";
+  src: url("../assets/Fonts/source_sans_pro/Source_Sans_Pro/ttf/SourceSansPro-Light.ttf");
 }
 
 @font-face {
-    font-family: 'source-sans-pro-thin';
-    src: url('../assets/Fonts/source_sans_pro/Source_Sans_Pro/ttf/SourceSansPro-Light.ttf');
+  font-family: "source-sans-pro-medium";
+  src: url("../assets/Fonts/source_sans_pro/Source_Sans_Pro/ttf/SourceSansPro-Regular.ttf");
 }
 
 @font-face {
-    font-family: 'source-sans-pro-medium';
-    src: url('../assets/Fonts/source_sans_pro/Source_Sans_Pro/ttf/SourceSansPro-Regular.ttf');
+  font-family: "source-sans-pro-bold";
+  src: url("../assets/Fonts/source_sans_pro/Source_Sans_Pro/ttf/SourceSansPro-Bold.ttf");
 }
-
-@font-face {
-    font-family: 'source-sans-pro-bold';
-    src: url('../assets/Fonts/source_sans_pro/Source_Sans_Pro/ttf/SourceSansPro-Bold.ttf');
-}
-
-

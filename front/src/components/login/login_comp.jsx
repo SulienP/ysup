@@ -28,7 +28,7 @@ export const LoginComp = () => {
           } else {
             setErrorMsg(null);
             const expires = new Date();
-            expires.setTime(expires.getTime() + 60 * 60 * 1000); // 1h
+            expires.setTime(expires.getTime() + 60 * 60 * 4000); // 1h
             document.cookie = `jwt=${response.data.jwt};expires=${expires.toUTCString()};path=/`;
             navigate("/");
           }

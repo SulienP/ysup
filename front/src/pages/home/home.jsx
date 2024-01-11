@@ -5,45 +5,108 @@ import { apiUrl } from "../../utils/constants";
 import HeaderPage from "../../components/header/header";
 import ComponentsTicket from "../../components/ticket/ticket";
 import FooterPage from '../../components/footer/footer';
-import RechercheComp from "../../components/recherche/recherche_comp";
 import CategorieComp from "../../components/categorie/categorie_comp";
+import searcheLogo from "../../assets/Images/search_logo.svg";
 import "./home.css";
 
 const HomePage = () => {
-    const [permissions, setPermissions] = useState("");
     const [errorMsg, SetErrorMsg] = useState("");
     const [cookieJwt, setCookieJwt] = useState("");
-    
+    const [tickets, setTickets] = useState([]);
+    const [searchContent, setSearchContent] = useState("");
+    const [filteredTickets, setFilteredTickets] = useState([]);
+    const [tags, setTags] = useState([]);
+
+ 
+
     useEffect(() => {
         setCookieJwt(getCookie());
-        const getPerm = async (cookieJwt) => {
-            await axios.post(apiUrl + 'isjwtvalid', { "jwt": cookieJwt }).then((response) => {
-                setPermissions(response.data.permission);
-            }).catch((err) => {
-                SetErrorMsg(err);
+        axios.post(apiUrl + 'getAllTickets', { tag: 1 ,jwt: getCookie() ?? "" })
+            .then((response) => {
+                setTickets(response.data)
+                setFilteredTickets(response.data);
             })
-        }
-        getPerm(cookieJwt);
-    }, [cookieJwt]);
+            .catch((err) => {
+                SetErrorMsg(err.message);
+            })
+        axios.get(apiUrl + "getAllTags").then((response) => {
+            setTags(response.data)
+        }).catch((err) => {
+            SetErrorMsg(err.message);
+        })
+    }, [])
+
+    const handleSearch = () => {
+        const filteredResults = tickets
+            .filter(ticket => {
+                const fullName = `${ticket.lastname} ${ticket.firstname}`;
+                return fullName.toLowerCase().startsWith(searchContent.toLowerCase());
+            })
+            .sort((a, b) => {
+                const nameA = `${a.firstname} ${a.lastname}`.toLowerCase();
+                const nameB = `${b.firstname} ${b.lastname}`.toLowerCase();
+                if (nameA < nameB) return -1;
+                if (nameA > nameB) return 1;
+                return 0; 
+            });
+    
+        setFilteredTickets(filteredResults);
+    };
+    
+
+    const handleSwitchTag = (data) => {
+        axios.post(apiUrl + 'getAllTickets', { tag: data , jwt: cookieJwt })
+            .then((response) => {
+                setTickets(response.data)
+                setFilteredTickets(response.data);
+            })
+            .catch((err) => {
+                SetErrorMsg(err.message);
+            })
+    }
+
+    useEffect(() => {
+        handleSearch();
+    }, [searchContent]);
 
     return (
-        <div className="home">
-            <HeaderPage/>
+        <div className="home columnContainer">
+            <HeaderPage />
             <div className="nav-categorie">
-                <CategorieComp/>
-                <CategorieComp/>
+                {tags.map((tag, index) => (
+                    <CategorieComp key={index} onclick={handleSwitchTag} idTag={tag.idTag} name={tag.name} />
+                ))}
             </div>
             <div className="separator"></div>
-            <RechercheComp/>
-            <div className="ticket">
-                <ComponentsTicket/>
-                <ComponentsTicket/>
-                <ComponentsTicket/>
-                <ComponentsTicket/>
-                <ComponentsTicket/>
-                <ComponentsTicket/>
+            <div className="search_container rowContainer ">
+                <img src={searcheLogo} />
+                <input type="text" onChange={(e) => { setSearchContent(e.target.value) }} placeholder="Rechercher nom, prénom ..." />
             </div>
-            <FooterPage/>
+            <div className="ticket">
+                {filteredTickets.length > 0 ? (
+                    filteredTickets.map((ticket, index) => {
+                        if (ticket.status != 3) {
+                            return (
+                                <ComponentsTicket
+                                    key={index}
+                                    ticketId={ticket.idTicket}
+                                    firstname={ticket.firstname}
+                                    lastname={ticket.lastname}
+                                    title={ticket.title}
+                                    tagName={ticket.tagName}
+                                    group={ticket.groupName}
+                                    profilePicture={ticket.file}
+                                    status={ticket.status}
+                                    date={ticket.dates}
+                                />
+                            )
+                        }
+                    })
+                ) : (
+                    <p className="errorMsgText">No matching tickets found.</p>
+                )}
+            </div>
+            <FooterPage />
         </div>
     )
 };

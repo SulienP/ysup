@@ -1,9 +1,13 @@
 import "./categorie_comp.css";
 
-const CategorieComp = () => {
+const CategorieComp = ({onclick , idTag , name}) => {
+
+    const sendDataToParent = () => {
+        onclick(idTag);
+    };
     return (
-        <div className="categorieComp">
-            <p>Absence</p>
+        <div  onClick={sendDataToParent} className={`categorieComp`}>
+            <p>{name}</p>
         </div>
     )
 };
