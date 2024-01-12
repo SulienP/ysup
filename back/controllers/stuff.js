@@ -1,15 +1,24 @@
 const Database = require("./Database_bis");
-const DBPATH = "./hackathon-v2.db";
+const DBPATH = "../../bdd/hackathon-v2.db";
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const jwt_key = "loe4J7Id0Ry2SEDg09lKk";
 const { v4: uuidv4 } = require("uuid");
 const { SendMail } = require("../service/mailSender");
 
-const hashPassword = (algorithm, base, passwd) => {
+/*---------------------- Hello ----------------------*/
 
+exports.hello = async (req, res) => {
+  res.json({ status: "hello" });
+};
+
+/*---------------------- Hash password ----------------------*/
+
+const hashPassword = (algorithm, base, passwd) => {
   return crypto.createHash(algorithm).update(passwd).digest(base);
 };
+
+/*---------------------- Permissions ----------------------*/
 
 const concatPerm = (tabPerm) => {
   let res = ["-", "-"];
@@ -27,6 +36,8 @@ const concatPerm = (tabPerm) => {
   });
   return res.join("");
 };
+
+/*---------------------- JWT ----------------------*/
 
 const encodeJwt = (userDatas) => {
   const payload = {
@@ -63,6 +74,7 @@ exports.isJwtValid = async (req, res) => {
 
 exports.isUserValid = async (req, res) => {
   const emp = req.body;
+  console.log(hashPassword("sha256", "base64", emp.password))
   let user = await Database.Read(
     DBPATH,
     "SELECT users.email, users.password FROM users WHERE users.email = ? AND users.password = ?",
@@ -77,15 +89,16 @@ exports.isUserValid = async (req, res) => {
   res.json({ jwt: encodedJwt });
 };
 
-exports.hello = async (req, res) => {
-  res.json({ status: "hello" });
-};
 
-// Get profil
+
+/*---------------------- GetAllProfile ----------------------*/
+
 exports.GetAllProfile = async (req, res) => {
   const allUsers = await Database.Read(DBPATH, "SELECT * FROM user");
   res.json(allUsers);
 };
+
+/*---------------------- GetProfilByMail ----------------------*/
 
 exports.GetProfilByMail = async (req, res) => {
   const mail = req.body;
@@ -97,6 +110,8 @@ exports.GetProfilByMail = async (req, res) => {
   res.json(UserByMAil);
 };
 
+/*---------------------- GetProfilById ----------------------*/
+
 exports.GetProfilById = async (req, res) => {
   const id = req.body;
   const UserById = await Database.Read(
@@ -107,7 +122,8 @@ exports.GetProfilById = async (req, res) => {
   res.json(UserById);
 };
 
-// Get value
+/*---------------------- UpdateValues ----------------------*/
+
 exports.UpdateValues = async (req, res) => {
   const emp = req.body;
   const Update = await Database.Write(
@@ -121,7 +137,8 @@ exports.UpdateValues = async (req, res) => {
   res.json(Update);
 };
 
-// Update status
+/*---------------------- UpdateStatus ----------------------*/
+
 exports.UpdateStatus = async (req, res) => {
   const emp = req.body;
   const updateValue = await Database.Write(
@@ -132,6 +149,8 @@ exports.UpdateStatus = async (req, res) => {
   );
   res.json(updateValue);
 };
+
+/*---------------------- GetGroupsFromUser ----------------------*/
 
 exports.GetGroupsFromUser = async (req, res) => {
   const emp = req.body;
@@ -153,11 +172,14 @@ exports.GetGroupsFromUser = async (req, res) => {
   });
 };
 
-// Get  tag
+/*---------------------- GetAllTags ----------------------*/
+
 exports.GetAllTags = async (req, res) => {
   const allTags = await Database.Read(DBPATH, "SELECT * FROM tags");
   res.json(allTags);
 };
+
+/*---------------------- GetTicketByIdGroup ----------------------*/
 
 exports.GetTicketByIdGroup = async (req, res) => {
   const emp = req.body;
@@ -169,7 +191,8 @@ exports.GetTicketByIdGroup = async (req, res) => {
   res.json(ticketForGroup);
 };
 
-// Get  All tickets with tag
+/*---------------------- GetAllTicketWithTag ----------------------*/
+
 exports.GetAllTicketWithTag = async (req, res) => {
   const emp = req.body;
   jwt.verify(emp.jwt, jwt_key, async (err, decoded) => {
@@ -186,7 +209,7 @@ exports.GetAllTicketWithTag = async (req, res) => {
       } else {
         const TicketByTag = await Database.Read(
           DBPATH,
-          "SELECT tickets.idTicket, users.firstname,users.lastname,tickets.title,  tickets.file, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idTagTicket = ? AND groups.idGroup = ? ORDER BY tickets.dates AND groups.idGroup DESC ;",
+          "SELECT tickets.idTicket, users.firstname,users.lastname, users.image,tickets.title, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idTagTicket = ? AND groups.idGroup = ? ORDER BY tickets.dates AND groups.idGroup DESC ;",
           emp.tag,
           group[0].idGroup
         );
@@ -200,7 +223,8 @@ exports.GetAllTicketWithTag = async (req, res) => {
   });
 };
 
-// Get  All tickets with tag
+/*---------------------- GetAllTicketFromUser ----------------------*/
+
 exports.GetAllTicketFromUser = async (req, res) => {
   const emp = req.body;
   jwt.verify(emp.jwt, jwt_key, async (err, decoded) => {
@@ -209,7 +233,7 @@ exports.GetAllTicketFromUser = async (req, res) => {
     } else {
       const tickets = await Database.Read(
         DBPATH,
-        "SELECT DISTINCT tickets.idTicket,  users.firstname,users.lastname,tickets.title,  tickets.file, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE users.email = ? GROUP BY tickets.idTicket ORDER BY tickets.dates DESC ;",
+        "SELECT DISTINCT tickets.idTicket,  users.firstname,users.lastname,users.image,tickets.title, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE users.email = ? GROUP BY tickets.idTicket ORDER BY tickets.dates DESC ;",
         decoded.email
       );
       if (tickets) {
@@ -220,6 +244,8 @@ exports.GetAllTicketFromUser = async (req, res) => {
     }
   });
 };
+
+/*---------------------- UpdateTag ----------------------*/
 
 exports.UpdateTag = async (res, req) => {
   const emp = req.body;
@@ -236,6 +262,8 @@ exports.UpdateTag = async (res, req) => {
   }
 };
 
+/*---------------------- GetIdTag ----------------------*/
+
 exports.GetIdTag = async (req, res) => {
   const emp = req.body;
   const IdTag = await Database.Read(
@@ -246,19 +274,20 @@ exports.GetIdTag = async (req, res) => {
   res.json(IdTag);
 };
 
-// Get ticket
+/*---------------------- GetOneTicketById ----------------------*/
 
 exports.GetOneTicketById = async (req, res) => {
   const emp = req.body;
   const ticketWithId = await Database.Read(
     DBPATH,
-    " SELECT tickets.idTicket, tickets.title ,tickets.content, tags.name, tickets.file, tickets.dates, tickets.status,users.firstname,users.lastname FROM tickets JOIN users ON users.idUser = tickets.idUser JOIN tags ON tags.idTag = tickets.idTagTicket WHERE tickets.idTicket = ? ; ",
+    " SELECT tickets.idTicket, tickets.title ,users.image,tickets.content, tags.name, tickets.file, tickets.dates, tickets.status,users.firstname,users.lastname FROM tickets JOIN users ON users.idUser = tickets.idUser JOIN tags ON tags.idTag = tickets.idTagTicket WHERE tickets.idTicket = ? ; ",
     emp.idTicket
   );
   res.json(ticketWithId);
 };
 
-// Create ticket
+/*---------------------- CreateTicket ----------------------*/
+
 exports.CreateTicket = async (req, res) => {
   const emp = req.body;
   const newUUID = uuidv4();
@@ -296,6 +325,8 @@ exports.CreateTicket = async (req, res) => {
     }
   });
 };
+
+/*---------------------- InsertMail ----------------------*/
 
 exports.InsertMail = async (req, res) => {
   const emp = req.body;
@@ -337,6 +368,8 @@ exports.InsertMail = async (req, res) => {
   });
 };
 
+/*---------------------- GetTicketByTagAndUser ----------------------*/
+
 exports.GetTicketByTagAndUser = async (req, res) => {
   const emp = req.body;
   jwt.verify(emp.jwt, jwt_key, async (err, decoded) => {
@@ -348,7 +381,7 @@ exports.GetTicketByTagAndUser = async (req, res) => {
         decoded.email);
       if (user) {
         const ticketForGroup = await Database.Read(DBPATH,
-          "SELECT tickets.*, tags.name AS tagName, groups.name AS groupName, users.firstname , users.lastname FROM tickets INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN users ON tickets.idUser = users.idUser INNER JOIN relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idUser = ? AND tickets.idTagTicket = ? ORDER BY tickets.dates, tickets.status DESC;",
+          "SELECT tickets.*, tags.name AS tagName, groups.name AS groupName, users.firstname , users.lastname, users.image FROM tickets INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN users ON tickets.idUser = users.idUser INNER JOIN relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idUser = ? AND tickets.idTagTicket = ? ORDER BY tickets.dates, tickets.status DESC;",
           user[0].idUser, emp.tag);
         res.json(ticketForGroup);
       } else {
