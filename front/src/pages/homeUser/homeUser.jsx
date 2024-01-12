@@ -4,53 +4,137 @@ import axios from "axios";
 import { apiUrl } from "../../utils/constants";
 import HeaderPage from "../../components/header/header";
 import ComponentsTicket from "../../components/ticket/ticket";
-import FooterPage from '../../components/footer/footer';
+import FooterPage from "../../components/footer/footer";
 import CategorieComp from "../../components/categorie/categorie_comp";
 import "./homeUser.css";
 import "../../styles/global.css";
 
 const HomeUserPage = () => {
-    const [permissions, setPermissions] = useState("");
-    const [errorMsg, SetErrorMsg] = useState("");
-    const [cookieJwt, setCookieJwt] = useState("");
-    
-    useEffect(() => {
-        setCookieJwt(getCookie());
-        const getPerm = async (cookieJwt) => {
-            await axios.post(apiUrl + 'isjwtvalid', { "jwt": cookieJwt }).then((response) => {
-                setPermissions(response.data.permission);
-            }).catch((err) => {
-                SetErrorMsg(err);
-            })
-        }
-        getPerm(cookieJwt);
-    }, [cookieJwt]);
+  const [errorMsg, SetErrorMsg] = useState("");
+  const [cookieJwt, setCookieJwt] = useState("");
+  const [tickets, setTickets] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [ticketPreview, setTicketPreview] = useState([]);
 
-    return (
-        <div className="homeUser">
-            <HeaderPage/>
-            <div className="contenant">
-                <div className="myTicket">
-                    <CategorieComp/>
-                    <div className="separator"></div>
-                    <div className="content-ticket">
-                        <div className="ticketUser">
-                            <ComponentsTicket/>
-                            <ComponentsTicket/>
-                            <ComponentsTicket/>
-                            <ComponentsTicket/>
-                            <ComponentsTicket/>
-                            <ComponentsTicket/>
-                        </div>
-                    </div>
-                </div>
-                <div className="Affichage">
-                    <p>Selectionner un element pour le lire</p>
-                </div>
-            </div>
-            <FooterPage/>
+  useEffect(() => {
+    setCookieJwt(getCookie());
+    axios
+      .post(apiUrl + "getAllTicketsByUser", { tag: 1, jwt: getCookie() ?? "" })
+      .then((response) => {
+        setTickets(response.data);
+        setFilteredTickets(response.data);
+      })
+      .catch((err) => {
+        SetErrorMsg(err.message);
+      });
+    axios
+      .get(apiUrl + "getAllTags")
+      .then((response) => {
+        setTags(response.data);
+      })
+      .catch((err) => {
+        SetErrorMsg(err.message);
+      });
+  }, []);
+
+  const handleSwitchTag = (data) => {
+    axios
+      .post(apiUrl + "getAllTicketsByGroup", { tag: data, jwt: cookieJwt })
+      .then((response) => {
+        setTickets(response.data);
+        setFilteredTickets(response.data);
+      })
+      .catch((err) => {
+        SetErrorMsg(err.message);
+      });
+  };
+
+  const getPreviewTicket = async (ticketId) => {
+    console.log(ticketId);
+    axios
+      .post(apiUrl + "getoneticket", { idTicket: ticketId })
+      .then((response) => {
+        setTicketPreview(response.data);
+      })
+      .catch((err) => {
+        SetErrorMsg(err.message);
+      });
+  };
+
+  return (
+    <div className="homeUser columnContainer">
+      <HeaderPage />
+      <div className="content rowContainer">
+        <div className="myTickets columnContainer alignCenter">
+          <div className="container_tags rowContainer alignCenter">
+            {tags.map((tag, index) => (
+              <CategorieComp
+                key={index}
+                onclick={handleSwitchTag}
+                idTag={tag.idTag}
+                name={tag.name}
+              />
+            ))}
+          </div>
+          <span className="separator"></span>
+          <div className="tickets_container columnContainer">
+            {tickets.length > 0 &&
+              tickets.map((ticket, index) => (
+                <span key={index} className="ticket_hover" onClick={() => getPreviewTicket(ticket.idTicket)}>
+                  <ComponentsTicket
+                   
+                    ticketId={ticket.idTicket}
+                    firstname={ticket.firstname}
+                    lastname={ticket.lastname}
+                    title={ticket.title}
+                    tagName={ticket.tagName}
+                    group={ticket.groupName}
+                    profilePicture={ticket.file}
+                    status={ticket.status}
+                    date={ticket.dates}
+                  />
+                </span>
+              ))}
+          </div>
         </div>
-    )
+        <div className="ticket_preview">
+          {ticketPreview.length > 0 ? (
+            ticketPreview.map((ticketDatas, index) => (
+              <section key={index} className="container_ticket_preview">
+                <article className="header_preview rowContainer">
+                  <img
+                    className="profile_preview"
+                    src={
+                      ticketDatas.image ? ticketDatas.image : "/logoProfile.png"
+                    }
+                    alt="profile_picture"
+                  />
+                  {ticketDatas.firstname} {ticketDatas.lastname}
+                </article>
+                <span className="separator_preview"></span>
+                <article className="preview_motif rowContainer">
+                  Catégorie :
+                  <p className="preview_motif_bold">{ticketDatas.name}</p>
+                </article>
+                <span className="separator_preview"></span>
+                <article className="preview_motif rowContainer">
+                  Motif :
+                  <p className="preview_motif_bold">{ticketDatas.title}</p>
+                </article>
+                <span className="separator_preview"></span>
+                <article className="preview_content">
+                  {ticketDatas.content}
+                </article>
+              </section>
+            ))
+          ) : (
+            <p className="no_preview_text alignCenter">Selectionner un element pour le lire</p>
+          )}
+        </div>
+      </div>
+      <FooterPage />
+    </div>
+  );
 };
 
 export default HomeUserPage;

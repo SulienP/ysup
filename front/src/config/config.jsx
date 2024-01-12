@@ -11,7 +11,7 @@ const Ways = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<HomePage />}/>
-                <Route path="/homeUser" element={<HomeUserPage/>}/>
+                <Route path="/home-user" element={<HomeUserPage/>}/>
                 <Route path="*" element={<ErrorPage />}/>
                 <Route path="/connexion" element={<LoginPage/>}/>
                 <Route path="/create-ticket" element={<CreateTicketPage/>}/>
