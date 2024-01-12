@@ -181,7 +181,6 @@ exports.GetAllTicketWithTag = async (req, res) => {
         "SELECT DISTINCT groups.name , groups.idGroup FROM groups INNER JOIN relation_tags_groups ON groups.idGroup = relation_tags_groups.idGroup INNER JOIN tags ON relation_tags_groups.idTag = tags.idTag INNER JOIN tickets ON tags.idTag = tickets.idTagTicket INNER JOIN users ON tickets.idUser = users.idUser WHERE users.email = ?",
         decoded.email
       );
-      console.log(decoded.email)
       if (group.length === 0) {
         res.json({ status: false });
       } else {
@@ -253,7 +252,7 @@ exports.GetOneTicketById = async (req, res) => {
   const emp = req.body;
   const ticketWithId = await Database.Read(
     DBPATH,
-    " SELECT tickets.title ,tickets.content, tags.name, tickets.file, tickets.dates, tickets.status,users.firstname,users.lastname FROM tickets JOIN users ON users.idUser = tickets.idUser JOIN tags ON tags.idTag = tickets.idTagTicket WHERE tickets.idTicket = ? ; ",
+    " SELECT tickets.idTicket, tickets.title ,tickets.content, tags.name, tickets.file, tickets.dates, tickets.status,users.firstname,users.lastname FROM tickets JOIN users ON users.idUser = tickets.idUser JOIN tags ON tags.idTag = tickets.idTagTicket WHERE tickets.idTicket = ? ; ",
     emp.idTicket
   );
   res.json(ticketWithId);
@@ -338,10 +337,24 @@ exports.InsertMail = async (req, res) => {
   });
 };
 
-exports.GetTicketByTag = async (req, res) => {
+exports.GetTicketByTagAndUser = async (req, res) => {
   const emp = req.body;
-  const ticketForGroup = await Database.Read( DBPATH,
-  "SELECT * from tickets WHERE tickets.idUser = ?  AND tickets.idTagTicket = ? ORDER BY tickets.dates AND tickets.status DESC ;",
-  emp.idUser,emp.idTag);
-  res.json(ticketForGroup);
+  jwt.verify(emp.jwt, jwt_key, async (err, decoded) => {
+    if (err) {
+      res.json({ idUser: err.message });
+    } else {
+      const user = await Database.Read(DBPATH,
+        "SELECT users.idUser from users WHERE users.email = ?;",
+        decoded.email);
+      if (user) {
+        const ticketForGroup = await Database.Read(DBPATH,
+          "SELECT tickets.*, tags.name AS tagName, groups.name AS groupName, users.firstname , users.lastname FROM tickets INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN users ON tickets.idUser = users.idUser INNER JOIN relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idUser = ? AND tickets.idTagTicket = ? ORDER BY tickets.dates, tickets.status DESC;",
+          user[0].idUser, emp.tag);
+        res.json(ticketForGroup);
+      } else {
+        res.json({ status: "Can't get user" })
+      }
+    }
+  }
+  )
 };
