@@ -1,13 +1,13 @@
 
-DROP TABLE IF EXISTS relation_groups_users;
-DROP TABLE IF EXISTS relation_reponses_tickets;
-DROP TABLE IF EXISTS relation_tags_groups;
-DROP TABLE IF EXISTS relation_tickets_tags;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS responses;
 DROP TABLE IF EXISTS tickets;
 DROP TABLE IF EXISTS tags;
+DROP TABLE IF EXISTS relation_groups_users;
+DROP TABLE IF EXISTS relation_reponses_tickets;
+DROP TABLE IF EXISTS relation_tags_groups;
+DROP TABLE IF EXISTS relation_users_tags;
 
 CREATE TABLE users
 (
@@ -52,18 +52,22 @@ CREATE TABLE tickets
 	FOREIGN KEY(idTagTicket) REFERENCES tags(idTag)
 );
 
+
+
+
 CREATE TABLE tags
 (
 	idTag INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	name VARCHAR(30) NOT NULL
 );
+
 	
 CREATE TABLE relation_groups_users
 (
 	idRelationGroupUser INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	userID INTEGER NOT NULL,
 	groupID INTEGER NOT NULL,
-	FOREIGN KEY(userID) REFERENCES users(idUser)
+	FOREIGN KEY(userid) REFERENCES users(idUser)
 );
 
 
@@ -87,19 +91,3 @@ CREATE TABLE relation_tags_groups
 	FOREIGN KEY(idTag) REFERENCES tags(idTag),
 	FOREIGN KEY(idGroup) REFERENCES groups(idGroup)
 );
-
-INSERT INTO users (idUser, firstname, lastname, password, image, email)
-VALUES (
-    '2f3f51c3318c',
-    'John',
-    'Doe',
-    'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=',
-    'profile_image_url',
-    'john.doe@example.com'
-);
-
-INSERT INTO groups (name, permission)
-VALUES ('MyGroup', 'r-'),('MyGroup2', '-W');
-
-INSERT INTO relation_groups_users (userID , groupID)
-VALUES ('2f3f51c3318c',1),('2f3f51c3318c',2);
