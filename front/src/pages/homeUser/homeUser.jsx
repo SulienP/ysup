@@ -82,7 +82,6 @@ const HomeUserPage = () => {
               tickets.map((ticket, index) => (
                 <span key={index} className="ticket_hover" onClick={() => getPreviewTicket(ticket.idTicket)}>
                   <ComponentsTicket
-                   
                     ticketId={ticket.idTicket}
                     firstname={ticket.firstname}
                     lastname={ticket.lastname}

@@ -132,6 +132,26 @@ exports.UpdateStatus = async (req, res) => {
   res.json(updateValue);
 };
 
+exports.GetGroupsFromUser = async (req, res) => {
+  const emp = req.body;
+  jwt.verify(emp.jwt, jwt_key, async (err, decoded) => {
+    if (err) {
+      res.json({ idUser: err.message });
+    } else {
+      const groups = await Database.Read(
+        DBPATH,
+        "SELECT groups.name FROM groups JOIN relation_groups_users ON relation_groups_users.groupID = groups.idGroup JOIN users ON users.idUser = relation_groups_users.userID WHERE users.email = ?;",
+        decoded.email
+      );
+      if (groups.length === 0) {
+        res.json({ status: false });
+      } else {
+        res.json(groups);
+      }
+    }
+  });
+};
+
 // Get  tag
 exports.GetAllTags = async (req, res) => {
   const allTags = await Database.Read(DBPATH, "SELECT * FROM tags");
@@ -174,6 +194,27 @@ exports.GetAllTicketWithTag = async (req, res) => {
         } else {
           res.json(TicketByTag);
         }
+      }
+    }
+  });
+};
+
+// Get  All tickets with tag
+exports.GetAllTicketFromUser = async (req, res) => {
+  const emp = req.body;
+  jwt.verify(emp.jwt, jwt_key, async (err, decoded) => {
+    if (err) {
+      res.json({ idUser: err.message });
+    } else {
+      const tickets = await Database.Read(
+        DBPATH,
+        "SELECT DISTINCT tickets.idTicket,  users.firstname,users.lastname,tickets.title,  tickets.file, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE users.email = ? GROUP BY tickets.idTicket ORDER BY tickets.dates DESC ;",
+        decoded.email
+      );
+      if (tickets.length === 0) {
+        res.json({ status: false });
+      } else {
+        res.json(tickets);
       }
     }
   });
