@@ -1,0 +1,120 @@
+/*-------------- Containers --------------*/
+
+.ticket_preview {
+  width: calc(60% - 8rem);
+  background: var(--lightgray);
+  padding: 4rem;
+  display: flex;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+.content {
+  display: flex;
+  justify-content: space-between;
+  height: 85%;
+  position: relative;
+  padding-bottom: 60px;
+  margin-top: 80px;
+  box-sizing: border-box;
+}
+.separator {
+  width: 80%;
+  height: 0;
+  border: 1px #c3c3c3 solid;
+  margin: 20px;
+}
+.tickets_container {
+  height: 56vh;
+  overflow: auto;
+  position: relative;
+}
+
+.myTickets {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.container_tags {
+  flex-wrap: wrap;
+}
+
+.profile_preview {
+  background-color: var(--white);
+  border-radius: 999px;
+  border: 3px solid var(--white);
+  width: 5rem;
+  object-fit: contain;
+}
+
+.container_ticket_preview {
+  gap: 1rem;
+  width: 100%;
+  position: relative;
+}
+
+.ticket_hover {
+    cursor: pointer;
+}
+
+.separator_preview {
+    display: block;
+  height: 1px;
+  background-color: var(--black);
+  opacity: 0.3;
+  width: 100%;
+  margin: 1rem 0;
+}
+/*-------------- Texts --------------*/
+
+.container_ticket_preview .header_preview {
+  font-family: "montserrat-medium", sans-serif;
+  font-size: 24px;
+  align-items: center;
+  gap: 2rem;
+}
+
+.container_ticket_preview .preview_motif {
+    font-family: "montserrat-medium",sans-serif;
+    gap: 1.5rem;
+    font-size: 18px;
+}
+
+.container_ticket_preview .preview_motif_bold {
+    font-family: "montserrat-bold",sans-serif;
+}
+
+.container_ticket_preview .preview_content {
+    font-family: "source-sans-pro-thin",sans-serif;
+    font-size: 14px;
+}
+
+.no_preview_text {
+    font-family: "montserrat-bold",sans-serif;
+    font-size: 24px;
+    width: 100%;
+    display: flex;
+    text-align: center;
+    color: var(--red);
+ 
+}
+/*-------------- qui ce rappelle du nokia ? --------------*/
+
+.preview_button_delete {
+  position: absolute;
+  bottom: -1.5rem;
+  background-color: var(--red);
+  padding: 0.5rem 1rem;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  color: var(--white);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+.preview_button_delete:hover {
+  transform: translateY(5px);
+  cursor: pointer;
+  transition: 0.5s;
+}

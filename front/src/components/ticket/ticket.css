@@ -1,0 +1,119 @@
+/*--------------- Containers ---------------*/
+.ticketComp {
+  background-color: #23b2a4;
+  border-radius: 15px;
+  width: 450px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  margin: 10px;
+}
+.header-ticket {
+  height: 31px;
+  width: 100%;
+  padding: 0.6rem 0;
+  background: #3f3f3f;
+  align-items: center;
+  font-family: "montserrat-medium", sans-serif;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
+  border-radius: 15px 15px 0px 0px;
+}
+
+.contenant-ticket {
+  width: 100%;
+  flex-wrap: wrap;
+}
+.contenant-ticket li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.contenant-ticket ul {
+  display: grid;
+  font-size: small;
+  row-gap: 0.5rem;
+  list-style-type: none;
+  padding: 0;
+  margin: 10px;
+  color: white;
+}
+
+.contenant-ticket li {
+  display: grid;
+  max-width: 375px;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  grid-template-columns: 120px 1fr;
+  font-family: "source-sans-pro-medium", sans-serif;
+}
+.contenant-ticket ul li p {
+  display: inline;
+  color: black;
+  font-family: "montserrat-medium", sans-serif;
+  text-decoration: underline;
+}
+
+.footer-ticket {
+  justify-content: space-between;
+}
+
+.footer-ticket img {
+  width: 1rem;
+  object-fit: contain;
+  border-radius: 999px;
+  margin-left: 1rem;
+}
+
+.contenant-ticket ul li img {
+  height: 25px;
+  width: 25px;
+  vertical-align: middle;
+  border-radius: 999px;
+}
+.footer-img-profile {
+  width: 25px;
+  margin: 10px;
+  vertical-align: middle;
+  float: right;
+  display: inline-flex;
+  flex-direction: row-reverse;
+}
+
+.footer-img-profile img {
+  border-radius: 999px;
+  margin: 1px;
+}
+/*--------------- Texts ---------------*/
+
+.header-ticket h4 {
+  color: #dfdfdf;
+  font-size: 14px;
+  display: inline;
+}
+.header-ticket svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 7px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+/*-------------- Buttons --------------*/
+
+.footer-ticket button:hover .btn_answer {
+  transform: translateX(5px);
+  transition: .5s;
+  cursor: pointer;
+}
+.footer-ticket button {
+  background-color: #ff6060;
+  font-family: "montserrat-medium", sans-serif;
+  border: none;
+  outline: none;
+  padding: 0.2rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+/*--------------- le meillierur jeux : skyrim ---------------*/
