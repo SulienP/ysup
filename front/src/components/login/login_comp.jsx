@@ -16,7 +16,7 @@ export const LoginComp = () => {
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        if (getCookie().length > 0) {
+        if (getCookie() && getCookie().length > 0) {
           const response = await axios.post(apiUrl + "getUserGroups", {
             jwt: getCookie(),
           });
@@ -27,7 +27,6 @@ export const LoginComp = () => {
             navigate('/connexion')
           }
         } else {
-          console.log('No cookies');
           navigate('/connexion')
         }
       } catch (error) {

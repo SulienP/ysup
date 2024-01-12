@@ -17,8 +17,6 @@ const HomePage = () => {
     const [filteredTickets, setFilteredTickets] = useState([]);
     const [tags, setTags] = useState([]);
 
- 
-
     useEffect(() => {
         setCookieJwt(getCookie());
         axios.post(apiUrl + 'getAllTicketsByGroup', { tag: 1 ,jwt: getCookie() ?? "" })

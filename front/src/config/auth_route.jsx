@@ -7,20 +7,18 @@ import { getCookie } from "../services/jwt_services";
 import LoginPage from "../pages/login/login_page";
 
 const AuthRoute = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
         if (getCookie().length > 0) {
-          const response = await axios.post(apiUrl + "getUserGroups", {
-            jwt: getCookie(),
-          });
-          if (response) {
-            setIsAuthenticated(true);
-          } else {
-            setIsAuthenticated(false);
-          }
+          await axios.post(apiUrl + 'isjwtvalid', { jwt: getCookie() }).then((response) => {
+            if (response.data) {
+              setIsAuthenticated(true);
+            } else {
+              setIsAuthenticated(false);
+            }
+          })
         } else {
           setIsAuthenticated(false);
         }
@@ -28,9 +26,8 @@ const AuthRoute = () => {
         setIsAuthenticated(false);
       }
     };
-
     checkAuthentication();
-  }, [getCookie]);
+  }, []);
 
   return isAuthenticated ? <Outlet /> : <LoginPage />;
 };
