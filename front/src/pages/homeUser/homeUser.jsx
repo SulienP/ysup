@@ -19,7 +19,7 @@ const HomeUserPage = () => {
   useEffect(() => {
     setCookieJwt(getCookie());
     axios
-      .post(apiUrl + "getAllTicketsByUser", { tag: 1, jwt: getCookie() ?? "" })
+      .post(apiUrl + "getAllTicketsByUser", { jwt: getCookie() ?? "" })
       .then((response) => {
         setTickets(response.data);
         setFilteredTickets(response.data);
@@ -39,7 +39,7 @@ const HomeUserPage = () => {
 
   const handleSwitchTag = (data) => {
     axios
-      .post(apiUrl + "getAllTicketsByGroup", { tag: data, jwt: cookieJwt })
+      .post(apiUrl + "getAllTicketsByUser", { tag: data, jwt: cookieJwt })
       .then((response) => {
         setTickets(response.data);
         setFilteredTickets(response.data);

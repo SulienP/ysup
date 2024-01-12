@@ -19,19 +19,22 @@ const HomePage = () => {
 
     useEffect(() => {
         setCookieJwt(getCookie());
-        axios.post(apiUrl + 'getAllTicketsByGroup', { tag: 1 ,jwt: getCookie() ?? "" })
-            .then((response) => {
-                setTickets(response.data)
-                setFilteredTickets(response.data);
-            })
-            .catch((err) => {
+        if (getCookie()) {
+            axios.post(apiUrl + 'getAllTicketsByGroup', { tag: 1, jwt: getCookie() })
+                .then((response) => {
+                    setTickets(response.data)
+                    setFilteredTickets(response.data);
+                })
+                .catch((err) => {
+                    SetErrorMsg(err.message);
+                })
+            axios.get(apiUrl + "getAllTags").then((response) => {
+                setTags(response.data)
+            }).catch((err) => {
                 SetErrorMsg(err.message);
             })
-        axios.get(apiUrl + "getAllTags").then((response) => {
-            setTags(response.data)
-        }).catch((err) => {
-            SetErrorMsg(err.message);
-        })
+        }
+
     }, [])
 
     const handleSearch = () => {
@@ -45,15 +48,15 @@ const HomePage = () => {
                 const nameB = `${b.firstname} ${b.lastname}`.toLowerCase();
                 if (nameA < nameB) return -1;
                 if (nameA > nameB) return 1;
-                return 0; 
+                return 0;
             });
-    
+
         setFilteredTickets(filteredResults);
     };
-    
+
 
     const handleSwitchTag = (data) => {
-        axios.post(apiUrl + 'getAllTicketsByGroup', { tag: data , jwt: cookieJwt })
+        axios.post(apiUrl + 'getAllTicketsByGroup', { tag: data, jwt: cookieJwt })
             .then((response) => {
                 setTickets(response.data)
                 setFilteredTickets(response.data);

@@ -40,7 +40,7 @@ export const CreateTicketComp = () => {
           content: contentTicket,
           file: file,
           date: new Date(),
-        }).then(()=> {
+        }).then((response)=> {
           navigate('/')
         })
         .catch((err) => console.error(err));

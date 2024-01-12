@@ -10,7 +10,8 @@ const SwitchPage = ({ Element1, Element2 }) => {
         axios.post(apiUrl + "getUserGroups", {
             jwt: getCookie(),
         }).then((response) => {
-            if (response.data && response.data.some(group => group.name === "Student")) {
+            console.log(response.data);
+            if (response.data && (response.data).some(group => group.name === "Student")) {
                 setIsAdmin(false);
             } else {
                 setIsAdmin(true);
