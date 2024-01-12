@@ -101,7 +101,7 @@ const HomeUserPage = () => {
                         title={ticket.title}
                         tagName={ticket.tagName}
                         group={ticket.groupName}
-                        profilePicture={ticket.file}
+                        profilePicture={ticket.image}
                         status={ticket.status}
                         date={ticket.dates}
                       />
