@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require("uuid");
 const { SendMail } = require("../service/mailSender");
 
 const hashPassword = (algorithm, base, passwd) => {
+
   return crypto.createHash(algorithm).update(passwd).digest(base);
 };
 
@@ -180,12 +181,13 @@ exports.GetAllTicketWithTag = async (req, res) => {
         "SELECT DISTINCT groups.name , groups.idGroup FROM groups INNER JOIN relation_tags_groups ON groups.idGroup = relation_tags_groups.idGroup INNER JOIN tags ON relation_tags_groups.idTag = tags.idTag INNER JOIN tickets ON tags.idTag = tickets.idTagTicket INNER JOIN users ON tickets.idUser = users.idUser WHERE users.email = ?",
         decoded.email
       );
+      console.log(decoded.email)
       if (group.length === 0) {
         res.json({ status: false });
       } else {
         const TicketByTag = await Database.Read(
           DBPATH,
-          "SELECT tickets.idTicket,  users.firstname,users.lastname,tickets.title,  tickets.file, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idTagTicket = ? AND groups.idGroup = ? ORDER BY tickets.dates AND groups.idGroup DESC ;",
+          "SELECT tickets.idTicket, users.firstname,users.lastname,tickets.title,  tickets.file, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idTagTicket = ? AND groups.idGroup = ? ORDER BY tickets.dates AND groups.idGroup DESC ;",
           emp.tag,
           group[0].idGroup
         );
@@ -211,10 +213,10 @@ exports.GetAllTicketFromUser = async (req, res) => {
         "SELECT DISTINCT tickets.idTicket,  users.firstname,users.lastname,tickets.title,  tickets.file, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE users.email = ? GROUP BY tickets.idTicket ORDER BY tickets.dates DESC ;",
         decoded.email
       );
-      if (tickets.length === 0) {
-        res.json({ status: false });
-      } else {
+      if (tickets) {
         res.json(tickets);
+      } else {
+        res.json({ status: false });
       }
     }
   });
@@ -286,6 +288,11 @@ exports.CreateTicket = async (req, res) => {
           emp.date,
           user[0].idUser
         );
+        if (insertTicket) {
+          res.json({ status: true });
+        } else {
+          res.json({ status: false });
+        }
       }
     }
   });
