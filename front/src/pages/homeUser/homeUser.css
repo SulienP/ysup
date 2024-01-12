@@ -26,7 +26,8 @@
 }
 .tickets_container {
   height: 56vh;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x:hidden;
   position: relative;
 }
 
