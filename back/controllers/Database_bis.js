@@ -21,7 +21,7 @@ class Database {
 
   static #Open = (dbPath, perm) => {
     if (!Database.#SetPermission(perm)) {
-      console.error("Invalid mode! Can't open database!");
+      console.error("Recalé à l'entrer de la boîte :/");
       return false;
     }
 
@@ -30,7 +30,7 @@ class Database {
       Database.#perm,
       (err) => {
         if (err === null) return;
-        console.error("Error while opening the database!\n", err);
+        console.error("Oh non ça marche pas :/ !\n", err);
         throw false;
       }
     );

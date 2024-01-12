@@ -39,10 +39,10 @@
 
 .contenant-ticket li {
   display: grid;
-  max-width: 375px;
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  width: 200px;
   grid-template-columns: 120px 1fr;
   font-family: "source-sans-pro-medium", sans-serif;
 }
@@ -85,6 +85,10 @@
 }
 /*--------------- Texts ---------------*/
 
+.ticket_length {
+  width: 50%;
+}
+
 .header-ticket h4 {
   color: #dfdfdf;
   font-size: 14px;
@@ -102,7 +106,7 @@
 
 .footer-ticket button:hover .btn_answer {
   transform: translateX(5px);
-  transition: .5s;
+  transition: 0.5s;
   cursor: pointer;
 }
 .footer-ticket button {

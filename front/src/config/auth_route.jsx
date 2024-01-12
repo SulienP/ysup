@@ -23,6 +23,7 @@ const AuthRoute = () => {
           setIsAuthenticated(false);
         }
       } catch (error) {
+        console.error("ça marchait chez moi ¯\_(ツ)_/¯")
         setIsAuthenticated(false);
       }
     };

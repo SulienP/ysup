@@ -55,7 +55,6 @@ const HomeUserPage = () => {
     axios
       .post(apiUrl + "getoneticket", { idTicket: ticketId })
       .then((response) => {
-        console.log(response.data)
         setTicketPreview(response.data);
       })
       .catch((err) => {

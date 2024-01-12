@@ -6,16 +6,24 @@ import { getCookie } from "../services/jwt_services";
 const SwitchPage = ({ Element1, Element2 }) => {
     const [isAdmin, setIsAdmin] = useState(false);
     useEffect(() => {
-        axios.post(apiUrl + "getUserGroups", {
-            jwt: getCookie(),
-        }).then((response) => {
-            if (response.data && (response.data).some(group => group.name === "Etudiant")) {
-                setIsAdmin(false);
-            } else {
-                setIsAdmin(true);
+        const fetchData = async () => {
+            try {
+                const jwt = await getCookie();
+                const response = await axios.post(apiUrl + "getUserGroups", {
+                    jwt: jwt,
+                });
+                if (response.data && response.data.some(group => group.name === "Etudiant")) {
+                    setIsAdmin(false);
+                } else {
+                    setIsAdmin(true);
+                }
+            } catch (error) {
+                console.error('Oups ça marche pas ¯\_(ツ)_/¯', error);
             }
-        });
-    }, [getCookie])
+        };
+
+        fetchData();
+    }, [])
     return isAdmin ? Element1 : Element2;
 }
 

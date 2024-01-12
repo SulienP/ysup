@@ -340,7 +340,7 @@ exports.InsertMail = async (req, res) => {
         "SELECT users.idUser FROM users WHERE users.email = ?",
         decoded.email
       );
-      const responseInsertResult = await Database.Write(
+      const jesaispascequeçafait = await Database.Write(
         DBPATH,
         "INSERT INTO responses (idResponse ,idUser, content, mailingDate) VALUES (?,?, ?, ?);",
         newUUID,

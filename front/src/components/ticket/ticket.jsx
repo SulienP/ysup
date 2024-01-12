@@ -38,7 +38,7 @@ const ComponentsTicket = ({ ticketId, firstname, lastname, tagName, group, title
             <div className="contenant-ticket rowContainer">
                 <ul>
                     <li><p>Informations :</p></li>
-                    <li><p>Numéro ticket :</p>{ticketId}</li>
+                    <li className="ticket_length"><p>Numéro ticket :</p>{ticketId}</li>
                     <li><p>Date :</p> {date}</li>
                     <li><p>Catégorie :</p>{tagName}</li>
                 </ul>
