@@ -71,6 +71,9 @@ export const TicketPanelComp = ({ ticketId }) => {
           content: responseCtrl,
           mailingDate: new Date(),
         })
+        .then(()=>{
+          setResponseCtrl("Message envoyé")
+        })
         .catch((err) => setErrMsg(err));
     }
   };
@@ -139,6 +142,7 @@ export const TicketPanelComp = ({ ticketId }) => {
         </button>
         <textarea
           className="textarea_response"
+          value={responseCtrl}
           onChange={(e) => setResponseCtrl(e.target.value)}
           placeholder="Entrez une réponse"
           name="response"

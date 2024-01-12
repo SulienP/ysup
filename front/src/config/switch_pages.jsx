@@ -4,14 +4,12 @@ import axios from "axios";
 import { getCookie } from "../services/jwt_services";
 
 const SwitchPage = ({ Element1, Element2 }) => {
-    console.log("atuh")
     const [isAdmin, setIsAdmin] = useState(false);
     useEffect(() => {
         axios.post(apiUrl + "getUserGroups", {
             jwt: getCookie(),
         }).then((response) => {
-            console.log(response.data);
-            if (response.data && (response.data).some(group => group.name === "Student")) {
+            if (response.data && (response.data).some(group => group.name === "Etudiant")) {
                 setIsAdmin(false);
             } else {
                 setIsAdmin(true);

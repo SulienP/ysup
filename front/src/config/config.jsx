@@ -15,6 +15,7 @@ const Ways = () => {
     <BrowserRouter>
       <Fragment>
         <Routes>
+
           <Route path="/connexion" element={<LoginPage />} />
           <Route path="/" element={<AuthRoute />} >
             <Route path="/" element={<SwitchPage Element1={<HomePage/>} Element2={<HomeUserPage/>} />} />
@@ -23,7 +24,7 @@ const Ways = () => {
             <Route path="/create-ticket" element={<CreateTicketPage/>} />
           </Route>
           <Route path="/ticket-panel/" element={<AuthRoute />} >
-            <Route path="/ticket-panel/*" element={<SwitchPage Element1={<TicketPanel/>} Element2={<HomePage/>}/>} />
+            <Route path="/ticket-panel/*" element={<SwitchPage Element1={<TicketPanel/>} Element2={<LoginPage/>}/>} />
           </Route>
           <Route path="*" element={<ErrorPage />} />
         </Routes>

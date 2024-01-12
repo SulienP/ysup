@@ -21,7 +21,6 @@ export const LoginComp = () => {
             jwt: getCookie(),
           });
           if (response) {
-            console.log(true)
             navigate('/')
           } else {
             navigate('/connexion')
@@ -30,7 +29,6 @@ export const LoginComp = () => {
           navigate('/connexion')
         }
       } catch (error) {
-        console.error('Error checking authentication:', error.message);
         navigate('/connexion')
       }
     };
