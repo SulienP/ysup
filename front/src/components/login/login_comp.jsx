@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../../utils/constants";
 import "../../styles/global.css";
 import "./login_comp.css";
 import { useNavigate } from "react-router-dom";
+import { getCookie } from "../../services/jwt_services";
 
 export const LoginComp = () => {
   const [emailController, setEmailController] = useState("");
@@ -11,6 +12,31 @@ export const LoginComp = () => {
   const [pwd2Controller, setPwd2Controller] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      try {
+        if (getCookie() && getCookie().length > 0) {
+          const response = await axios.post(apiUrl + "getUserGroups", {
+            jwt: getCookie(),
+          });
+          if (response) {
+            console.log(true)
+            navigate('/')
+          } else {
+            navigate('/connexion')
+          }
+        } else {
+          navigate('/connexion')
+        }
+      } catch (error) {
+        console.error('Error checking authentication:', error.message);
+        navigate('/connexion')
+      }
+    };
+
+    checkAuthentication();
+  }, []);
 
   const submitLogin = async () => {
     if (pwd1Controller != pwd2Controller) {

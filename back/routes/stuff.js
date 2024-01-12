@@ -11,7 +11,9 @@ router.post('/createticket',stuffCtrl.CreateTicket);
 router.post('/getoneticket',stuffCtrl.GetOneTicketById);
 router.put('/updateTicketStatus',stuffCtrl.UpdateStatus);
 router.put ('/updateTicketTag',stuffCtrl.UpdateTag);
-router.post('/getAllTickets',stuffCtrl.GetAllTicketWithTag);
+router.post('/getAllTicketsByGroup',stuffCtrl.GetAllTicketWithTag);
+router.post('/getAllTicketsByUser',stuffCtrl.GetAllTicketFromUser);
 router.post('/postResponse',stuffCtrl.InsertMail);
+router.post('/getUserGroups',stuffCtrl.GetGroupsFromUser);
 
 module.exports = router;
