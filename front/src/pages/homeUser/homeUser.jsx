@@ -73,9 +73,9 @@ const HomeUserPage = () => {
   }
 
   return (
-    <div className="homeUser columnContainer">
+    <div className="home_user columnContainer">
       <HeaderPage />
-      <div className="content rowContainer">
+      <div className="content">
         <div className="myTickets columnContainer alignCenter">
           <div className="container_tags rowContainer alignCenter">
             {tags.map((tag, index) => (
@@ -139,7 +139,7 @@ const HomeUserPage = () => {
                 <article className="preview_content">
                   {ticketDatas.content}
                 </article>
-                <button onClick={() => deleteTicket(ticketDatas.idTicket)}>Supprimer</button>
+                <button className="preview_button_delete" onClick={() => deleteTicket(ticketDatas.idTicket)}>Supprimer</button>
               </section>
             ))
           ) : (
