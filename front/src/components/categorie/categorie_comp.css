@@ -1,3 +1,4 @@
+/*--------------- Containers ---------------*/
 .categorieComp {
   width: 221px;
   height: 46px;
@@ -15,13 +16,13 @@
   color: var(--red);
   border-bottom: 2px solid var(--red);
 }
-
+/*-------------- Buttons --------------*/
 .categorieComp:hover {
   color: var(--white);
   background-color: var(--red);
   border-bottom: 2px solid var(--black);
 }
-
+/*--------------- Texts ---------------*/
 .categorieComp p {
   font-family: "montserrat-medium", sans-serif;
   font-size: 14px;
