@@ -34,7 +34,7 @@ exports.SendMail = async (content, title, receiver,sender) => {
 
     const mailOptions = {
       from: process.env.USER_EMAIL_SENDER,
-      to: receiver,
+      to: "ISeeNock.Draw@gmail.com",
       cc : sender,
       subject: "Réponse au ticket : " + title,
       text: content,

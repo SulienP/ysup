@@ -13,6 +13,7 @@ router.put('/updateTicketStatus',stuffCtrl.UpdateStatus);
 router.put ('/updateTicketTag',stuffCtrl.UpdateTag);
 router.post('/getAllTicketsByGroup',stuffCtrl.GetAllTicketWithTag);
 router.post('/getAllTicketsByUser',stuffCtrl.GetAllTicketFromUser);
+router.post('/getAllTicketsByUserAndTag',stuffCtrl.GetTicketByTagAndUser);
 router.post('/postResponse',stuffCtrl.InsertMail);
 router.post('/getUserGroups',stuffCtrl.GetGroupsFromUser);
 

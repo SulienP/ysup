@@ -8,6 +8,7 @@ import FooterPage from "../../components/footer/footer";
 import CategorieComp from "../../components/categorie/categorie_comp";
 import "./homeUser.css";
 import "../../styles/global.css";
+import { useNavigate } from "react-router-dom";
 
 const HomeUserPage = () => {
   const [errorMsg, SetErrorMsg] = useState("");
@@ -15,11 +16,12 @@ const HomeUserPage = () => {
   const [tickets, setTickets] = useState([]);
   const [tags, setTags] = useState([]);
   const [ticketPreview, setTicketPreview] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCookieJwt(getCookie());
     axios
-      .post(apiUrl + "getAllTicketsByUser", { tag: 1, jwt: getCookie() ?? "" })
+      .post(apiUrl + "getAllTicketsByUser", { jwt: getCookie() ?? "" })
       .then((response) => {
         setTickets(response.data);
         setFilteredTickets(response.data);
@@ -39,7 +41,7 @@ const HomeUserPage = () => {
 
   const handleSwitchTag = (data) => {
     axios
-      .post(apiUrl + "getAllTicketsByGroup", { tag: data, jwt: cookieJwt })
+      .post(apiUrl + "getAllTicketsByUserAndTag", { tag: data, jwt: cookieJwt })
       .then((response) => {
         setTickets(response.data);
         setFilteredTickets(response.data);
@@ -50,16 +52,25 @@ const HomeUserPage = () => {
   };
 
   const getPreviewTicket = async (ticketId) => {
-    console.log(ticketId);
     axios
       .post(apiUrl + "getoneticket", { idTicket: ticketId })
       .then((response) => {
+        console.log(response.data)
         setTicketPreview(response.data);
       })
       .catch((err) => {
         SetErrorMsg(err.message);
       });
   };
+
+  const deleteTicket = async (ticketId) => {
+    await axios
+      .put(apiUrl + "updateTicketStatus", { idTicket: ticketId, status: 3 })
+      .then(() => {
+        handleSwitchTag(1)
+      })
+      .catch((err) => console.error("Error while trying to close the ticket"));
+  }
 
   return (
     <div className="homeUser columnContainer">
@@ -79,21 +90,25 @@ const HomeUserPage = () => {
           <span className="separator"></span>
           <div className="tickets_container columnContainer">
             {tickets.length > 0 &&
-              tickets.map((ticket, index) => (
-                <span key={index} className="ticket_hover" onClick={() => getPreviewTicket(ticket.idTicket)}>
-                  <ComponentsTicket
-                    ticketId={ticket.idTicket}
-                    firstname={ticket.firstname}
-                    lastname={ticket.lastname}
-                    title={ticket.title}
-                    tagName={ticket.tagName}
-                    group={ticket.groupName}
-                    profilePicture={ticket.file}
-                    status={ticket.status}
-                    date={ticket.dates}
-                  />
-                </span>
-              ))}
+              tickets.map((ticket, index) => {
+                if (ticket.status != 3) {
+                  return (
+                    <span key={index} className="ticket_hover" onClick={() => getPreviewTicket(ticket.idTicket)}>
+                      <ComponentsTicket
+                        ticketId={ticket.idTicket}
+                        firstname={ticket.firstname}
+                        lastname={ticket.lastname}
+                        title={ticket.title}
+                        tagName={ticket.tagName}
+                        group={ticket.groupName}
+                        profilePicture={ticket.file}
+                        status={ticket.status}
+                        date={ticket.dates}
+                      />
+                    </span>
+                  )
+                }
+              })}
           </div>
         </div>
         <div className="ticket_preview">
@@ -124,6 +139,7 @@ const HomeUserPage = () => {
                 <article className="preview_content">
                   {ticketDatas.content}
                 </article>
+                <button onClick={() => deleteTicket(ticketDatas.idTicket)}>Supprimer</button>
               </section>
             ))
           ) : (
