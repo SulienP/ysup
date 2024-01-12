@@ -49,6 +49,7 @@ export const TicketPanelComp = ({ ticketId }) => {
 
   const handleEditTag = async () => {
     setIsEditingTag(false);
+    console.log(selectedTag);
     await axios
       .put(apiUrl + "updateTicketTag", {
         idTicket: ticketId,

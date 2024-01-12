@@ -8,7 +8,6 @@ import FooterPage from "../../components/footer/footer";
 import CategorieComp from "../../components/categorie/categorie_comp";
 import "./homeUser.css";
 import "../../styles/global.css";
-import { useNavigate } from "react-router-dom";
 
 const HomeUserPage = () => {
   const [errorMsg, SetErrorMsg] = useState("");
@@ -16,7 +15,6 @@ const HomeUserPage = () => {
   const [tickets, setTickets] = useState([]);
   const [tags, setTags] = useState([]);
   const [ticketPreview, setTicketPreview] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setCookieJwt(getCookie());
@@ -67,6 +65,7 @@ const HomeUserPage = () => {
       .put(apiUrl + "updateTicketStatus", { idTicket: ticketId, status: 3 })
       .then(() => {
         handleSwitchTag(1)
+        setTicketPreview([])
       })
       .catch((err) => console.error("Error while trying to close the ticket"));
   }

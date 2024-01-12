@@ -201,7 +201,7 @@ exports.GetAllTicketWithTag = async (req, res) => {
     } else {
       const group = await Database.Read(
         DBPATH,
-        "SELECT DISTINCT groups.name , groups.idGroup FROM groups INNER JOIN relation_tags_groups ON groups.idGroup = relation_tags_groups.idGroup INNER JOIN tags ON relation_tags_groups.idTag = tags.idTag INNER JOIN tickets ON tags.idTag = tickets.idTagTicket INNER JOIN users ON tickets.idUser = users.idUser WHERE users.email = ?",
+        "SELECT DISTINCT groups.name, groups.idGroup FROM groups JOIN relation_groups_users ON relation_groups_users.groupID = groups.idGroup JOIN users ON relation_groups_users.userID = users.idUser WHERE users.email = ?;",
         decoded.email
       );
       if (group.length === 0) {
@@ -209,7 +209,7 @@ exports.GetAllTicketWithTag = async (req, res) => {
       } else {
         const TicketByTag = await Database.Read(
           DBPATH,
-          "SELECT tickets.idTicket, users.firstname,users.lastname, users.image,tickets.title, tickets.status , tickets.dates,users.image,  tags.name AS 'tagName',groups.name AS 'groupName' , groups.idGroup FROM tickets INNER JOIN users ON tickets.idUser = users.idUser  INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN groups ON relation_groups_users.groupID = groups.idGroup WHERE tickets.idTagTicket = ? AND groups.idGroup = ? ORDER BY tickets.dates AND groups.idGroup DESC ;",
+          "SELECT tickets.idTicket, users.firstname, users.lastname,users.image, tickets.title, tickets.status,tickets.dates, tags.name AS 'tagName', groups.name AS 'groupName', groups.idGroup FROM tickets INNER JOIN  users ON tickets.idUser = users.idUser INNER JOIN tags ON tickets.idTagTicket = tags.idTag INNER JOIN  relation_groups_users ON users.idUser = relation_groups_users.userID INNER JOIN  groups ON relation_groups_users.groupID = groups.idGroup INNER JOIN   relation_tags_groups ON tags.idTag = relation_tags_groups.idTag WHERE  tickets.idTagTicket = ?  AND groups.idGroup = ? AND relation_tags_groups.idGroup = groups.idGroup ORDER BY  tickets.dates DESC, groups.idGroup;",
           emp.tag,
           group[0].idGroup
         );
@@ -247,7 +247,7 @@ exports.GetAllTicketFromUser = async (req, res) => {
 
 /*---------------------- UpdateTag ----------------------*/
 
-exports.UpdateTag = async (res, req) => {
+exports.UpdateTag = async (req, res) => {
   const emp = req.body;
   const updatetag = await Database.Write(
     DBPATH,
