@@ -330,3 +330,11 @@ exports.InsertMail = async (req, res) => {
     }
   });
 };
+
+exports.GetTicketByTag = async (req, res) => {
+  const emp = req.body;
+  const ticketForGroup = await Database.Read( DBPATH,
+  "SELECT * from tickets WHERE tickets.idUser = ?  AND tickets.idTagTicket = ? ORDER BY tickets.dates AND tickets.status DESC ;",
+  emp.idUser,emp.idTag);
+  res.json(ticketForGroup);
+};
